@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(value = "/alldayrun/course/coursesearch.do")
+@WebServlet(value = "/course/coursesearch.do")
 public class CourseSearch extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -18,4 +18,11 @@ public class CourseSearch extends HttpServlet {
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/course/coursesearch.jsp");
 		dispatcher.forward(req, resp);
 	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

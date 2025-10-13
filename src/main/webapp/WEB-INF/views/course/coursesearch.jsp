@@ -8,7 +8,12 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/inc/header.jsp"%>
-	<h1>코스 검색</h1>
+	<!-- 검색창 -->
+	
+	<!-- 코스 데이터 출력용 컨테이너 -->
+	
+	
+	
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<!-- <script src="https://bit.ly/4cMuheh"></script> -->

@@ -31,3 +31,5 @@ tmp/
 Thumbs.db
 .DS_Store
 
+kakaomap_appkey.txt
+kakaomap.html

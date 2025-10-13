@@ -19,12 +19,19 @@
 - com.test.run(메인 패키지)
   - Index.java
   - Template.java
+- com.test.run.course
+  - CourseSearch.java (코스 검색 메인페이지)
 
 #### JSP
 
 - WEB-INF/views
   - index.jsp
   - template.jsp
+- views/inc
+  - asset.jsp (css 링크 등 여기에 작성)
+  - header.jsp (상단 메뉴 조각페이지)
+- views/course
+  - coursesearch.jsp
 
 #### 공통 리소스
 

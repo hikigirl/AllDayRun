@@ -1,0 +1,71 @@
+package com.test.run.course.model;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+
+public class CourseDAO {
+
+	private Connection conn;
+	private Statement stat;
+	private PreparedStatement pstat;
+	private ResultSet rs;
+
+	public CourseDAO() {
+		try {
+			Context ctx = new InitialContext();
+			Context env = (Context)ctx.lookup("java:comp/env");
+			DataSource ds = (DataSource)env.lookup("jdbc/pool");
+			
+			conn = ds.getConnection();
+			
+			stat = conn.createStatement();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void close() {
+		try {
+			this.conn.close();
+		} catch (Exception e) {
+			// handle exception
+			System.out.println("CourseDAO.close()");
+			e.printStackTrace();
+		}
+	}
+
+
+	public int addSpot(CourseDTO dto) {
+		try {
+
+			String sql = "INSERT INTO tblSpot(spotSeq, place, lat, lng) VALUES (seqSpot.nextVal, ?, ?, ?)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getPlace());
+			pstat.setString(2, dto.getLat());
+			pstat.setString(3, dto.getLng());
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("CourseDAO.addSpot");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	
+	
+	
+	
+
+}
