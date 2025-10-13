@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.Context;
@@ -64,7 +65,38 @@ public class CourseDAO {
 
 	//courseRegister.do에서 호출
 	public int addCourse(List<CourseDTO> spots) {
-		// TODO Auto-generated method stub
+		// 
+		try {
+			// --- 트랜잭션 시작 ---
+	        conn.setAutoCommit(false); //수동커밋으로 변경
+	        
+	        
+			String sql = "INSERT INTO tblSpot(spotSeq, place, lat, lng) VALUES (seqSpot.nextVal, ?, ?, ?)";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, value);
+			
+			rs = pstat.executeQuery();
+			
+			List<CourseDTO> list = new ArrayList<CourseDTO>();
+			
+			while (rs.next()) {
+				
+				CourseDTO dto = new CourseDTO();
+				
+				pstat.setString(1, dto.getPlace());
+				pstat.setString(2, dto.getLat());
+				pstat.setString(3, dto.getLng());
+				
+				list.add(dto);				
+			}	
+			
+			return list;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return 0;
 	}
 	
