@@ -1,4 +1,4 @@
-# ToyProject
+# JSP/Servlet 프로젝트 - 올데이런
 ### 새 프로젝트 만들기
 - New dynamic web project
   - project name: AllDayRun
