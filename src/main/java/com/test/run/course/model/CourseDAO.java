@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -43,23 +44,27 @@ public class CourseDAO {
 	}
 
 
-	public int addSpot(CourseDTO dto) {
-		try {
+	/*
+	 * public int addSpot(List<CourseDTO> spots) { try {
+	 * 
+	 * String sql =
+	 * "INSERT INTO tblSpot(spotSeq, place, lat, lng) VALUES (seqSpot.nextVal, ?, ?, ?)"
+	 * ;
+	 * 
+	 * pstat = conn.prepareStatement(sql); pstat.setString(1, spots.getPlace());
+	 * pstat.setString(2, spots.getLat()); pstat.setString(3, spots.getLng());
+	 * 
+	 * return pstat.executeUpdate();
+	 * 
+	 * } catch (Exception e) { System.out.println("CourseDAO.addSpot");
+	 * e.printStackTrace(); }
+	 * 
+	 * return 0; }
+	 */
 
-			String sql = "INSERT INTO tblSpot(spotSeq, place, lat, lng) VALUES (seqSpot.nextVal, ?, ?, ?)";
-
-			pstat = conn.prepareStatement(sql);
-			pstat.setString(1, dto.getPlace());
-			pstat.setString(2, dto.getLat());
-			pstat.setString(3, dto.getLng());
-
-			return pstat.executeUpdate();
-
-		} catch (Exception e) {
-			System.out.println("CourseDAO.addSpot");
-			e.printStackTrace();
-		}
-		
+	//courseRegister.do에서 호출
+	public int addCourse(List<CourseDTO> spots) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 	

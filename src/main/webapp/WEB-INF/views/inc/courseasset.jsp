@@ -3,4 +3,4 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://bit.ly/4cMuheh"></script>
-<script type="text/javascript" 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=애플리케이션 키(자바스크립트 키)"></script>
+<script type="text/javascript" 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=자바스크립트키"></script>

@@ -1,12 +1,23 @@
 # JSP/Servlet 프로젝트 - 올데이런
-### 새 프로젝트 만들기
+<br>
+<details>
+<summary>새 프로젝트 만들기</summary>
+<div markdown="1">
+
 - New dynamic web project
   - project name: AllDayRun
   - context root: alldayrun
   - web.xml 체크
+  
+</div>
+</details>
 
+<br>
 
-### 파일, 라이브러리 세팅
+<details>
+<summary>파일, 라이브러리 세팅</summary>
+<div markdown="1">
+
 #### 라이브러리
 - ojdbc.jar
 - myutil.jar
@@ -49,3 +60,7 @@
   - 프로필 사진...
 - webapp/asset/place
   - 첨부파일 저장용도
+
+
+</div>
+</details>
