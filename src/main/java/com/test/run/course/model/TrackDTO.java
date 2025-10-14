@@ -7,14 +7,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CourseDTO {
-	
-
-	//tblCourse
+public class TrackDTO {
+	//tblTrack
+	private String trackSeq;
+	private String startSpotSeq;
+	private String endSpotSeq;
+	private String courseLength;
 	private String courseSeq;
-	private String courseName;
-	private String courseApproval;
-	private String accountId; // 사용자 ID (추가 필요)
-	
 	
 }

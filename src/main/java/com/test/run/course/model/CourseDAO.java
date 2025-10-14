@@ -64,7 +64,7 @@ public class CourseDAO {
 	 */
 
 	//courseRegister.do에서 호출
-	public int addCourse(List<CourseDTO> spots) {
+	public int addCourseTransaction(String courseName, String accountId, List<SpotDTO> spots) {
 		// 
 		try {
 			// --- 트랜잭션 시작 ---
@@ -99,6 +99,9 @@ public class CourseDAO {
 		
 		return 0;
 	}
+
+
+	
 	
 	
 	

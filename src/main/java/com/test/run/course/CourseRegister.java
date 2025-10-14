@@ -17,9 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.test.run.course.model.CourseDAO;
 import com.test.run.course.model.CourseDTO;
+import com.test.run.course.model.SpotDTO;
 
 @WebServlet(value = "/course/courseregister.do")
 public class CourseRegister extends HttpServlet {
@@ -33,7 +35,7 @@ public class CourseRegister extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//데이터 수신
+		//데이터 수신(courseregister.jsp)
 		req.setCharacterEncoding("UTF-8");
 		
 //		String lat = req.getParameter("lat");
@@ -45,62 +47,88 @@ public class CourseRegister extends HttpServlet {
             sb.append(line);
         }
         String jsonStr = sb.toString();
+        
+        // 디버깅: 수신된 원본 JSON 문자열 출력
+        System.out.println("[DEBUG] Received JSON String: " + jsonStr);
 		
+        CourseDAO dao = new CourseDAO(); //dao 객체 안에 db커넥션이 있어서 json 파싱 전에 객체 생성하는 게 좋다네요...
+        
 		//json-simple을 사용하여 json을 list로 변환
-        List<CourseDTO> spots = new ArrayList<CourseDTO>();
+        //List<CourseDTO> spots = new ArrayList<CourseDTO>();
+        List<SpotDTO> spots = new ArrayList<SpotDTO>();
+        String courseName = "";
+        String accountId = "admin@naver.com"; //[추가] 사용자 ID (임시 하드코딩)
+        
         try {
 			JSONParser parser = new JSONParser();
-			JSONArray jsonArray = (JSONArray) parser.parse(jsonStr); //문자열을 jsonArray로 파싱
 			
-			//for문을 돌면서 각 요소를 순회
-			for (Object obj : jsonArray) {
-				JSONObject jsonObj = (JSONObject) obj; // 각 요소를 JSONObject로 변환
+			//JSONArray jsonArray = (JSONArray)parser.parse(jsonStr); //json문자열을 jsonArray로 파싱 -> 오류나서 수정
+			
+			//jsonObject로 파싱
+			JSONObject rootObj = (JSONObject)parser.parse(jsonStr);
+			System.out.println("[DEBUG] Root JSON Object: " + rootObj.toJSONString()); //파싱된 최상위 객체 콘솔에 출력
+			
+			// 코스명 추출 (tblCourse에 저장할 데이터)
+	        courseName = (String) rootObj.get("courseName"); //코스명 추출
+	        System.out.println("[DEBUG] Course Name: " + courseName);
+	        
+	        // 'spots' 배열 추출
+	        JSONArray jsonArray = (JSONArray)rootObj.get("spots");
+	        
+			//for문을 돌면서 각 요소를 순회, spotDTO에 순서 부여
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JSONObject jsonObj = (JSONObject)jsonArray.get(i); // 각 요소를 JSONObject로 변환
 
                 // JSONObject에서 값을 추출
-                String place = (String) jsonObj.get("place");
+                String place = (String)jsonObj.get("place");
                 String lat = String.valueOf(jsonObj.get("lat")); // lat, lng는 Double일 수 있으므로 String으로 변환
                 String lng = String.valueOf(jsonObj.get("lng"));
 				
 				// CourseDTO 객체를 만들어 값 설정
-				CourseDTO dto = new CourseDTO();
-				dto.setLat(lat);
-				dto.setLng(lng);
-				dto.setPlace(place);
+				SpotDTO spotDto = new SpotDTO();
+				spotDto.setLat(lat);
+				spotDto.setLng(lng);
+				spotDto.setPlace(place);
+				spotDto.setStep(i);
 				
-				spots.add(dto);
+				spots.add(spotDto);
 			}
 			
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("CourseRegister.doPost");
+		} catch (ParseException e) {
+			// handle exception			
+			System.out.println("CourseRegister.doPost - JSON Parsing Error");
 			e.printStackTrace();
+			
+			// 파싱 오류 발생 시 DAO 호출 없이 실패 응답 (메소드 분리 권장)
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            dataMap.put("result", "fail");
+            sendJsonResponse(resp, dataMap); // ✅ [수정] 아래의 헬퍼 메소드 사용
+            return;
 		}
         
-		//db작업
-		CourseDAO dao = new CourseDAO();
+		//db작업(CourseDAO)
+        // 3. DAO에 코스명, 사용자 ID, 지점 목록을 모두 전달
+        // result를 DAO 호출 후에 선언 및 사용하도록 변경
+        int result = dao.addCourseTransaction(courseName, accountId, spots); // [수정] DAO 메서드 호출 시그니처 변경
+        
+        // 4. 결과 응답
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        if(result > 0) {
+            dataMap.put("result", "success");
+        } else {
+            dataMap.put("result", "fail");
+        }
 		
-		
-		int result = dao.addCourse(spots);
-		
-		// 여기서는 DB 연동을 생략하고, 성공했다고 가정합니다.
-		//int result = 1;
-		
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		
-		if(result==1) {
-			dataMap.put("result", "success");
-		} else {
-			dataMap.put("result", "fail");
-		}
-		
-		JSONObject json = new JSONObject(dataMap);
-		
-		resp.setContentType("application/json"); // 응답 데이터가 JSON임을 명시
-		resp.setCharacterEncoding("UTF-8");
-		PrintWriter writer = resp.getWriter();
-		writer.print(json);
-		writer.close();
-		
+        sendJsonResponse(resp, dataMap); // [수정] sendJsonResponse(헬퍼 메소드) 사용
+        dao.close();
 	}
 	
+	private void sendJsonResponse(HttpServletResponse resp, Map<String, Object> dataMap) throws IOException {
+        JSONObject json = new JSONObject(dataMap);
+        resp.setContentType("application/json"); // 응답 데이터가 JSON임을 명시
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter writer = resp.getWriter();
+        writer.print(json);
+        writer.close();
+    }
 }
