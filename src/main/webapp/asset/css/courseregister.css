@@ -1,0 +1,111 @@
+@charset "UTF-8";
+
+#map {
+	width: 600px;
+	height: 450px;
+}
+
+/* 기본 레이아웃 스타일 */
+.course-editor {
+	display: flex;
+	gap: 20px;
+}
+
+.input-section {
+	width: 400px;
+}
+
+hr {
+	margin: 20px 0;
+	border: 1px solid #ddd;
+	border-bottom: 0px;
+}
+
+/* 지점 입력 그룹 스타일 */
+.input-group {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.input-group span {
+	width: 60px;
+	font-weight: bold;
+}
+
+.input-group input[type="text"] {
+	/*  flex-grow: 1;*/ /* 남는 공간을 모두 차지 */
+	padding: 8px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	width: 304px;
+}
+
+/* 추가/삭제 버튼 스타일 */
+.btn-action {
+	width: 28px;
+	height: 28px;
+	margin-left: 8px;
+	border-radius: 50%; /* 원형 버튼 */
+	border: 1px solid #ccc;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn-add {
+	background-color: #28a745;
+	color: white;
+	border-color: #28a745;
+}
+
+.btn-remove {
+	background-color: #dc3545;
+	color: white;
+	border-color: #dc3545;
+}
+
+#btnRegisterCourse {
+	display: block;
+	width: 100%;
+	padding: 12px;
+	font-size: 18px;
+	font-weight: bold;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-top: 20px;
+}
+/* style 태그 안에 추가 */
+.spot-details {
+	flex-grow: 1;
+}
+
+.auto-address {
+	font-size: 13px;
+	color: #666;
+	padding: 0px 8px;
+	background-color: #f8f9fa;
+	border: 1px solid #ddd;
+	border-bottom: none; /* 아래 input과 자연스럽게 연결 */
+	border-radius: 4px 4px 0 0;
+	height: 23px;
+	width: 286px;
+	padding-top: 5px;
+}
+
+.custom-name-input {
+	width: 304px;
+	box-sizing: border-box; /* padding, border가 너비에 포함되도록 */
+	padding: 8px;
+	border: 1px solid #ddd;
+	border-radius: 0 0 4px 4px;
+}
+#courseName {
+	width: 287px;
+}
