@@ -91,7 +91,7 @@ $(document).ready(function() {
 			<div class="input-group">
 				<span>경유지</span>
 				<div class="spot-details">
-					<div class="auto-address">지도에서 선택하세요</div>
+					<div class="auto-address">지도에서 장소를 선택하세요.</div>
 					<input type="text" class="custom-name-input" placeholder="장소의 별명을 입력하세요">
 				</div>
 				<button type="button" class="btn-action btn-remove" title="경유지 삭제">x</button>

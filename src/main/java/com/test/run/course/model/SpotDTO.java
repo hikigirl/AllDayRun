@@ -13,6 +13,6 @@ public class SpotDTO {
 	private String place;
 	private String lat;
 	private String lng;
-
-	private int step;
+	private String courseSeq;
+	private int spotStep;
 }

@@ -89,7 +89,7 @@ public class CourseRegister extends HttpServlet {
 				spotDto.setLat(lat);
 				spotDto.setLng(lng);
 				spotDto.setPlace(place);
-				spotDto.setStep(i);
+				spotDto.setSpotStep(i);
 				
 				spots.add(spotDto);
 			}

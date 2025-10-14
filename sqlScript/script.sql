@@ -88,9 +88,10 @@ ALTER TABLE tblTrack ADD CONSTRAINT fk_track_course FOREIGN KEY (courseSeq) REFE
 
 
 --집가서...(251014)
+DROP TABLE tblCourse;
 DROP TABLE TBLTRACK;
 DROP TABLE tblspot;
-DROP TABLE tblCourse;
+
 
 --1. tblSpot
 CREATE TABLE tblSpot (
@@ -153,4 +154,48 @@ SELECT * FROM tblcourse;
 INSERT INTO tbltrack VALUES (seqTrack.nextVal, 7, 8, 2.2, 1);
 INSERT INTO tbltrack VALUES (seqTrack.nextVal, 7, 8, 2.2, 2);
 SELECT * FROM tbltrack;
+
+--최종 ERD(251014, 집에서 수정함)
+--1. tblCourse
+CREATE TABLE tblCourse (
+	courseSeq		NUMBER			NOT NULL,
+	courseName		VARCHAR2(50)	NOT NULL,
+	courseApproval	VARCHAR2(50)	DEFAULT '대기'	NOT NULL,
+	accountId		VARCHAR2(100)	NOT NULL
+);
+
+ALTER TABLE tblCourse ADD CONSTRAINT "PK_TBLCOURSE" PRIMARY KEY (courseSeq);
+
+ALTER TABLE tblCourse ADD CONSTRAINT "FK_tblAccountInfo_TO_tblCourse_1" FOREIGN KEY (accountId) REFERENCES tblAccountInfo (accountId);
+
+--2. tblSpot
+CREATE TABLE tblSpot (
+	spotSeq		NUMBER			NOT NULL,
+	place		VARCHAR2(300)	NOT NULL,
+	lat			NUMBER			NOT NULL,
+	lng			NUMBER			NOT NULL,
+	courseSeq	NUMBER			NOT NULL,
+	spotStep	NUMBER			NOT NULL
+);
+
+ALTER TABLE tblSpot ADD CONSTRAINT "PK_TBLSPOT" PRIMARY KEY (spotSeq);
+
+ALTER TABLE tblSpot ADD CONSTRAINT "FK_tblCourse_TO_tblSpot_1" FOREIGN KEY (courseSeq) REFERENCES tblCourse (courseSeq);
+
+--3. tblTrack
+CREATE TABLE tblTrack (
+	trackSeq		NUMBER		NOT NULL,
+	startspotSeq	NUMBER		NOT NULL,
+	endspotSeq		NUMBER		NOT NULL,
+	courselength	NUMBER		NOT NULL,
+	courseSeq		NUMBER		NOT NULL
+);
+
+ALTER TABLE tblTrack ADD CONSTRAINT "PK_TBLTRACK" PRIMARY KEY (trackSeq);
+
+ALTER TABLE tblTrack ADD CONSTRAINT "FK_tblSpot_TO_tblTrack_1" FOREIGN KEY (startspotSeq) REFERENCES tblSpot (spotSeq);
+
+ALTER TABLE tblTrack ADD CONSTRAINT "FK_tblSpot_TO_tblTrack_2" FOREIGN KEY (endspotSeq) REFERENCES tblSpot (spotSeq);
+
+ALTER TABLE tblTrack ADD CONSTRAINT "FK_tblCourse_TO_tblTrack_1" FOREIGN KEY (courseSeq) REFERENCES tblCourse (courseSeq);
 
