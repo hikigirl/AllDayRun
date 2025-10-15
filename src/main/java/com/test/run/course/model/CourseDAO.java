@@ -200,6 +200,7 @@ public class CourseDAO {
 	            dto.setTotalDistance(rs.getDouble("totalDistance"));
 	            dto.setFavoriteCount(rs.getInt("favoriteCount"));
 	            dto.setCurator(rs.getString("curator"));
+	            dto.setAccountId(rs.getString("accountId"));
 				
 				list.add(dto);				
 			}	
@@ -217,8 +218,54 @@ public class CourseDAO {
 		return list;
 	}
 
-
+	/**
+	 * 인기 코스 목록 조회(비회원 사용자)
+	 * 스크랩순으로 정렬한다.
+	 * @return 코스 카드 정보가 담긴 리스트
+	 */
 	public List<CourseCardDTO> getPopularCourses() {
+		List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
+		PreparedStatement pstat = null;
+		ResultSet rs = null;
+		try {
+			
+			String sql = "SELECT * FROM vwCourseCards ORDER BY FAVORITECOUNT DESC, courseSeq DESC";
+			
+			pstat = conn.prepareStatement(sql);
+			
+			rs = pstat.executeQuery();
+
+			while (rs.next()) {
+				
+				CourseCardDTO dto = new CourseCardDTO();
+				
+				dto.setCourseSeq(rs.getString("courseSeq"));
+				dto.setCourseName(rs.getString("courseName"));
+	            dto.setTotalDistance(rs.getDouble("totalDistance"));
+	            dto.setFavoriteCount(rs.getInt("favoriteCount"));
+	            dto.setCurator(rs.getString("curator"));
+	            dto.setAccountId(rs.getString("accountId"));
+				
+	            list.add(dto);				
+			}	
+		} catch (Exception e) {
+			System.out.println("CourseDAO.getPopularCourses 실패");
+			e.printStackTrace();
+		} finally {
+	        // 자원 반납
+	        try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+	        try { if (pstat != null) pstat.close(); } catch (Exception e) { e.printStackTrace(); }
+	    }
+
+		return list;
+	}
+
+	/**
+	 * 개인 상세정보 테이블에서 사용자 주소를 얻어오는 메서드
+	 * @param accountId
+	 * @return
+	 */
+	public String getUserLocation(String accountId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

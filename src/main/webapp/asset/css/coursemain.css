@@ -60,6 +60,12 @@
     gap: 25px; /* 카드 사이의 간격 */
 }
 
+
+.course-card-link {
+	color: inherit; /* 부모 요소의 글자 색상 상속 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
 /* 개별 코스 카드 */
 .course-card {
 	max-width: 500px; 

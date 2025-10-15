@@ -43,7 +43,7 @@ ALTER TABLE tblTrack ADD CONSTRAINT "FK_tblSpot_TO_tblTrack_2" FOREIGN KEY (ends
 ALTER TABLE tblTrack ADD CONSTRAINT "FK_tblCourse_TO_tblTrack_1" FOREIGN KEY (courseSeq) REFERENCES tblCourse (courseSeq);
 
 
-UPDATE TBLCOURSE SET courseapproval = '승인' WHERE courseseq=29;
+UPDATE TBLCOURSE SET courseapproval = '승인' WHERE COURSESEQ BETWEEN 21 AND 23;
 SELECT * FROM tblCourse;
 
 /*SELECT
@@ -92,7 +92,7 @@ SELECT
     c.courseSeq,
     c.courseName,
     NVL(SUM(t.courselength), 0) as totalDistance,
-    (SELECT COUNT(*) FROM tblScrapCourse s WHERE s.courseSeq = c.courseSeq) as courseScrapCount,
+    (SELECT COUNT(*) FROM tblScrapCourse s WHERE s.courseSeq = c.courseSeq) as FAVORITECOUNT,
     ai.NICKNAME as curator,
     c.accountId
 FROM tblCourse c
@@ -104,3 +104,5 @@ GROUP BY c.courseSeq, c.courseName, ai.NICKNAME, c.accountId;
 SELECT * FROM vwCourseCards;
 
 SELECT * FROM vwCourseCards WHERE courseName LIKE '%한강%' ORDER BY favoriteCount DESC, courseSeq DESC;
+
+SELECT * FROM vwCourseCards ORDER BY FAVORITECOUNT DESC, courseSeq DESC;

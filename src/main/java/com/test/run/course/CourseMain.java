@@ -45,6 +45,7 @@ public class CourseMain extends HttpServlet {
 			if (accountId != null) {
 				//로그인 사용자 - 지역 기반 추천 코스 조회
 				System.out.println("[DEBUG] Logged-in user (" + accountId + "). Getting recommended courses.");
+				//아래 두줄 구현 필요
 //				String userLocation = dao.getUserLocation(accountId);
 //				courseList = dao.getRecommendedCourses(userLocation);
 				//임시 - 로그인 사용자도 인기순 코스 조회 일단은

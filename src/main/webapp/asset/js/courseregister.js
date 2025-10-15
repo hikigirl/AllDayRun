@@ -25,7 +25,7 @@ $(document).ready(function() {
 	$(document).on('focus', '.custom-name-input', function() {
 		activeInputIndex = $(this).closest('.input-group').data('index');
 		console.log('활성화된 입력상자 index: ' + activeInputIndex);
-		$('#guide-message').text('지도에서 원하는 위치를 클릭하세요.').css('color', 'blue');
+		$('#guide-message').text('지도에서 원하는 위치를 클릭하세요.').css('color', '#a20759');
 	});
 
 	// [2] 지도 클릭 이벤트 (mousedown 사용)

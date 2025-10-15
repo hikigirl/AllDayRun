@@ -27,7 +27,7 @@
 				</form>
 
 				<div id="recommend-container">
-					<div id="message">이런 코스는 어떠세요?</div>
+					<div id="message">🔥요즘 인기 있는 코스</div>
 
 					<div class="course-grid">
 						<%-- ✅ [수정 1] 검색을 '시도'했고, 그 결과가 없을 때만 표시 --%>
@@ -41,8 +41,9 @@
 					    </c:if>
 						<!-- 카드 1 -->
 						<c:forEach var="course" items="${courseList}">
+						
 						<!-- a태그는 코스 클릭시 상세보기 페이지로 이동하기 위한 것, href 수정 필요 -->
-						<a href="/alldayrun/course/detail.do?courseSeq=${course.courseSeq}" class="course-card-link">
+						<a href="/alldayrun/course/coursedetail.do?courseSeq=${course.courseSeq}" class="course-card-link">
 						<div class="course-card">
 							<div class="card-map">
 								<img src="/alldayrun/asset/courseimg/card_map_sample.png"
@@ -51,15 +52,18 @@
 							<div class="card-details">
 								<h3 class="course-title">${course.courseName}</h3>
 								<div class="course-info">
-									<span>거리</span> <span class="kilometers">${course.totalDistance}km</span>
+									<span>직선거리</span>&nbsp;&nbsp;<span class="kilometers">${course.totalDistance}km</span>
 								</div>
 								<div class="course-info">
-									<span>즐겨찾기</span> <span>${course.favoriteCount}</span>
+									<span>즐겨찾기</span>&nbsp;&nbsp;<span>${course.favoriteCount}</span>
 								</div>
-								<div class="course-curator">${course.curator}</div>
+								<div class="course-curator">
+									<span>등록</span>&nbsp;<span>${course.curator}</span>
+								</div>
 							</div>
 						</div>
 						</a>
+						
 						</c:forEach>
 
 						<!-- 카드 2 -->

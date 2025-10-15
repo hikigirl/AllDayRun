@@ -43,6 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+  const hamburgerBtn = document.querySelector('.hamburger-btn');
+	const sidebar = document.querySelector('#sidebar');
+
+	if (hamburgerBtn && sidebar) {
+		hamburgerBtn.addEventListener('click', () => {
+			sidebar.classList.toggle('is-open');
+			hamburgerBtn.classList.toggle('is-open');
+		});
+	}
+
 });
 
 /*document.addEventListener('DOMContentLoaded', () => {
