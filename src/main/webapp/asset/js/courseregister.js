@@ -92,9 +92,9 @@ $(document).ready(function() {
 				<span>경유지</span>
 				<div class="spot-details">
 					<div class="auto-address">지도에서 장소를 선택하세요.</div>
-					<input type="text" class="custom-name-input" placeholder="장소의 별명을 입력하세요">
+					<input type="text" class="custom-name-input" placeholder="장소의 별명을 입력하세요." maxlength="25">
 				</div>
-				<button type="button" class="btn-action btn-remove" title="경유지 삭제">x</button>
+				<button type="button" class="btn-action btn-remove" title="경유지 삭제"><img src="${contextPath}/asset/buttonimg/remove_btn.png" alt="경유지 삭제"></button>
 			</div>
 		`;
 		$(newWaypointHTML).insertBefore('#end-point-group');
@@ -147,14 +147,14 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: 'post',
-			url: '/alldayrun/course/courseregister.do',
+			url: contextPath + '/course/courseregister.do',
 			data: JSON.stringify(courseData),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(result) {
 				if (result.result === 'success') {
-					alert('코스 등록이 완료되었습니다.');
-					// location.href = '/course/coursesearch.do'; // 성공 시 페이지 이동
+					alert('코스 등록 요청이 완료되었습니다.');
+					location.href = contextPath + '/course/coursemain.do'; // 성공 시 페이지 이동
 				} else {
 					alert('코스 등록에 실패했습니다.');
 				}

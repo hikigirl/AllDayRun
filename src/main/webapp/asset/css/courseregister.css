@@ -1,4 +1,7 @@
 @charset "UTF-8";
+#main-content {
+	margin: 0 30px;
+}
 
 #map {
 	width: 600px;
@@ -87,36 +90,34 @@ hr {
 }
 
 .btn-action {
-	width: 32px;
-	height: 32px;
+	width: 28px;   /* 이전 단계에서 수정한 작은 크기 유지 */
+	height: 28px;  /* 이전 단계에서 수정한 작은 크기 유지 */
 	margin-left: 10px;
 	border-radius: 50%;
-	border: none;
-	font-size: 18px;
+	
+	/* ▼▼▼ 디자인 변경 ▼▼▼ */
+	background-color: #f5f5f5; /* 밝은 회색 배경 */
+	border: 1px solid #ccc;    /* 얇은 회색 테두리 */
+	color: #555;               /* 아이콘(+, x) 색상을 어두운 회색으로 */
+	box-shadow: none;           /* 그림자 제거 */
+	/* ▲▲▲ 디자인 변경 ▲▲▲ */
+
+	font-size: 16px;
 	font-weight: bold;
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: white;
-	transition: all 0.2s ease-in-out;
-	box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+	transition: background-color 0.2s ease-in-out; /* 부드러운 색상 전환 효과 */
 }
 
-.btn-add {
-	background-color: #007bff;
+.btn-action img {
+    width: 16px;  /* 원하는 아이콘 너비 */
+    height: 16px; /* 원하는 아이콘 높이 */
+    display: block; /* 이미지 아래 불필요한 여백 제거 */
 }
-.btn-add:hover {
-	background-color: #0056b3;
-	transform: translateY(-2px);
-}
-
-.btn-remove {
-	background-color: #e74c3c;
-}
-.btn-remove:hover {
-	background-color: #c0392b;
-	transform: translateY(-2px);
+.btn-action:hover {
+	background-color: #e0e0e0; /* 마우스를 올리면 살짝 더 진한 회색으로 */
 }
 
 #btnRegisterCourse {
@@ -125,7 +126,7 @@ hr {
 	padding: 12px;
 	font-size: 18px;
 	font-weight: bold;
-	background-color: #28a745;
+	background-color: #2c3e50; /* Your chosen pink */
 	color: white;
 	border: none;
 	border-radius: 5px;
@@ -134,7 +135,7 @@ hr {
 	transition: background-color 0.2s;
 }
 #btnRegisterCourse:hover {
-	background-color: #218838;
+	background-color: #34495e;
 }
 
 #courseName {

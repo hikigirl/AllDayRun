@@ -171,7 +171,7 @@ ALTER TABLE tblCourse ADD CONSTRAINT "FK_tblAccountInfo_TO_tblCourse_1" FOREIGN 
 --2. tblSpot
 CREATE TABLE tblSpot (
 	spotSeq		NUMBER			NOT NULL,
-	place		VARCHAR2(300)	NOT NULL,
+	place		VARCHAR2(50)	NOT NULL,
 	lat			NUMBER			NOT NULL,
 	lng			NUMBER			NOT NULL,
 	courseSeq	NUMBER			NOT NULL,
