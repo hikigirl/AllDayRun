@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%@include file="/WEB-INF/views/inc/asset.jsp"%>
-<%@include file="/WEB-INF/views/inc/courseasset_css.jsp"%>
+<link rel="stylesheet" href="/alldayrun/asset/css/courseregister.css" />
 
 </head>
 <body>
@@ -15,7 +15,7 @@
 
 		<div class="content-wrapper">
 		<%@include file="/WEB-INF/views/inc/sidebar.jsp"%>
-			<div id="main-content">
+			<div class="main-content" id="regMain">
 				<h2>코스 등록하기</h2>
 				<p id="guide-message">입력란을 클릭하여 활성화한 후, 지도에서 원하는 위치를 클릭하세요.</p>
 
@@ -73,7 +73,7 @@
 	<%-- <script src="${pageContext.request.contextPath}/asset/js/main.js"></script> --%>
 	
 	<script>
-	    // JSP의 contextPath를 JavaScript 전역 변수로 저장합니다.
+	    // JSP의 contextPath를 JavaScript 전역 변수로 저장
 	    const contextPath = "${pageContext.request.contextPath}";
 	</script>
 	<script

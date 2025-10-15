@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -36,11 +37,31 @@ public class CourseRegister extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//데이터 수신(courseregister.jsp)
-		req.setCharacterEncoding("UTF-8");
+		req.setCharacterEncoding("UTF-8"); //항상 맨 꼭대기에
 		
-//		String lat = req.getParameter("lat");
-//		String lng = req.getParameter("lng");
-//		String place = req.getParameter("place");
+		//현재 세션을 가져옴
+		HttpSession session = req.getSession();
+		
+		//세션에 저장된 loginUserEmail이라는 값을 꺼내서 accountId 변수에 저장,
+		//getAttribute 실패시 accountId==null
+		String accountId = "admin@naver.com"; //[추가] 사용자 ID (임시 하드코딩)
+		
+		//세션 연동 부분, 밑에 if문까지 주석 풀기
+		/*
+		String accountId = (String) session.getAttribute("loginUserEmail");
+		
+		
+		
+		if (accountId == null) {
+			resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED); //401 unauthorized
+			Map<String, Object> datamap = new HashMap<String, Object>();
+			datamap.put("result", "fail");
+			datamap.put("message", "로그인이 필요합니다.");
+			sendJsonResponse(resp, datamap);
+			return;
+		}
+		*/
+		
 		StringBuilder sb = new StringBuilder();
         String line;
         while ((line = req.getReader().readLine()) != null) {
@@ -57,7 +78,7 @@ public class CourseRegister extends HttpServlet {
         //List<CourseDTO> spots = new ArrayList<CourseDTO>();
         List<SpotDTO> spots = new ArrayList<SpotDTO>();
         String courseName = "";
-        String accountId = "admin@naver.com"; //[추가] 사용자 ID (임시 하드코딩)
+        
         
         try {
 			JSONParser parser = new JSONParser();

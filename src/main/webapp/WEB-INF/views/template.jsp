@@ -17,7 +17,9 @@
   		<div class="content-wrapper">
     		<%@include file="/WEB-INF/views/inc/sidebar.jsp"%>
     		<!-- 메인 컨텐츠 영역 -->
-    		<div id="main">
+    		<div class="main-content" id="">
+    		<!-- 여기 태그 내부에 본인 담당 페이지 html를 작성 -->
+    			
     			
     		</div>
     		

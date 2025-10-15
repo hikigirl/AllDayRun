@@ -1,7 +1,4 @@
 @charset "UTF-8";
-#main-content {
-	margin: 0 30px;
-}
 
 #map {
 	width: 600px;
@@ -9,6 +6,9 @@
 }
 
 /* 기본 레이아웃 스타일 */
+#regMain{
+	margin: 30px 30px;
+}
 .course-editor {
 	display: flex;
 	gap: 20px;
@@ -21,7 +21,7 @@
 	flex-direction: column;
 }
 
-hr {
+#input-section-hr {
 	margin: 20px 0;
 	border: 1px solid #ddd;
 	border-bottom: 0px;

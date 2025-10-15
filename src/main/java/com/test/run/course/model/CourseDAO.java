@@ -15,9 +15,10 @@ import javax.sql.DataSource;
 public class CourseDAO {
 
 	private Connection conn;
-	private Statement stat;
-	private PreparedStatement pstat;
-	private ResultSet rs;
+//	전역 변수가 아니라 개별 메서드에서 새로 선언하는게 더 안정적
+//	private Statement stat;
+//	private PreparedStatement pstat;
+//	private ResultSet rs;
 
 	public CourseDAO() {
 		try {
@@ -27,7 +28,7 @@ public class CourseDAO {
 			
 			conn = ds.getConnection();
 			
-			stat = conn.createStatement();
+			//stat = conn.createStatement();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,7 +37,7 @@ public class CourseDAO {
 	
 	public void close() {
 		try {
-			this.conn.close();
+			if (this.conn != null) this.conn.close();
 		} catch (Exception e) {
 			// handle exception
 			System.out.println("CourseDAO.close()");
@@ -44,28 +45,15 @@ public class CourseDAO {
 		}
 	}
 
-
-	/*
-	 * public int addSpot(List<CourseDTO> spots) { try {
-	 * 
-	 * String sql =
-	 * "INSERT INTO tblSpot(spotSeq, place, lat, lng) VALUES (seqSpot.nextVal, ?, ?, ?)"
-	 * ;
-	 * 
-	 * pstat = conn.prepareStatement(sql); pstat.setString(1, spots.getPlace());
-	 * pstat.setString(2, spots.getLat()); pstat.setString(3, spots.getLng());
-	 * 
-	 * return pstat.executeUpdate();
-	 * 
-	 * } catch (Exception e) { System.out.println("CourseDAO.addSpot");
-	 * e.printStackTrace(); }
-	 * 
-	 * return 0; }
-	 */
-
 	//courseRegister.do에서 호출
 	public int addCourseTransaction(String courseName, String accountId, List<SpotDTO> spots) {
-		// 
+		//모든 리소스 변수를 지역 변수로 선언하고 사용(finally에서 닫으려면 여기서 선언해야함)
+		PreparedStatement pstatCourse = null;
+        PreparedStatement pstatSpot = null;
+        PreparedStatement pstatTrack = null;
+        ResultSet rsCourse = null;
+        ResultSet rsSpot = null;
+		
 		try {
 			// --- 트랜잭션 시작 ---
 	        conn.setAutoCommit(false); //수동커밋으로 변경
@@ -74,16 +62,16 @@ public class CourseDAO {
 	        //1. tblCourse에 코스 정보 insert
 	        String courseSql = "INSERT INTO tblCourse(courseSeq, courseName, courseApproval, accountId) VALUES (seqCourse.nextVal, ?, default, ?)";
             String generatedCourseColumns[] = { "courseSeq" }; // 생성된 키를 반환받기 위함
-            pstat = conn.prepareStatement(courseSql, generatedCourseColumns);
+            pstatCourse = conn.prepareStatement(courseSql, generatedCourseColumns);
             
-            pstat.setString(1, courseName);
-            pstat.setString(2, accountId); 
-            pstat.executeUpdate();
+            pstatCourse.setString(1, courseName);
+            pstatCourse.setString(2, accountId); 
+            pstatCourse.executeUpdate();
             
             // 방금 INSERT된 courseSeq 가져오기
-            ResultSet courseKeys = pstat.getGeneratedKeys();
-            if (courseKeys.next()) {
-                newCourseSeq = courseKeys.getLong(1);
+            rsCourse = pstatCourse.getGeneratedKeys();
+            if (rsCourse.next()) {
+                newCourseSeq = rsCourse.getLong(1);
             }
             // courseSeq를 받지 못했다면 롤백
             if (newCourseSeq == 0) {
@@ -95,22 +83,22 @@ public class CourseDAO {
             List<Long> spotSeqs = new ArrayList<>(); // 생성된 spotSeq들을 순서대로 저장할 리스트
             String spotSql = "INSERT INTO tblSpot(spotSeq, place, lat, lng, courseSeq, spotStep) VALUES (seqSpot.nextVal, ?, ?, ?, ?, ?)";
             String generatedSpotColumns[] = { "spotSeq" };
-            pstat = conn.prepareStatement(spotSql, generatedSpotColumns);
+            pstatSpot = conn.prepareStatement(spotSql, generatedSpotColumns);
             
-            for (int i = 0; i < spots.size(); i++) {
-                SpotDTO dto = spots.get(i);
+            for (SpotDTO dto : spots) {
+                //SpotDTO dto = spots.get(i);
                 
-                pstat.setString(1, dto.getPlace());
-                pstat.setString(2, dto.getLat());
-                pstat.setString(3, dto.getLng());
-                pstat.setLong(4, newCourseSeq);     // tblCourse FK
-                pstat.setInt(5, i);                 // 순서 (0부터 시작)
-                pstat.executeUpdate();
+                pstatSpot.setString(1, dto.getPlace());
+                pstatSpot.setString(2, dto.getLat());
+                pstatSpot.setString(3, dto.getLng());
+                pstatSpot.setLong(4, newCourseSeq);     // tblCourse FK
+                pstatSpot.setInt(5, dto.getSpotStep()); // 순서 (0부터 시작)
+                pstatSpot.executeUpdate();
                 
                 // 방금 INSERT된 spotSeq 가져오기
-                ResultSet spotKeys = pstat.getGeneratedKeys();
-                if (spotKeys.next()) {
-                    spotSeqs.add(spotKeys.getLong(1));
+                rsSpot = pstatSpot.getGeneratedKeys();
+                if (rsSpot.next()) {
+                    spotSeqs.add(rsSpot.getLong(1));
                 }
             }
             
@@ -123,14 +111,14 @@ public class CourseDAO {
             // 3. tblTrack에 순서대로 경로 등록
             // tblTrack에 courseSeq 컬럼이 추가되어야 함
             // courseLength는 현재 계산이 불가능하므로 0으로 임시 저장
-            String trackSql = "INSERT INTO tblTrack(trackSeq, courseSeq, startSpotSeq, endSpotSeq, courseLength) VALUES (seqTrack.nextVal, ?, ?, ?, 0)";
-            pstat = conn.prepareStatement(trackSql);
+            String trackSql = "INSERT INTO tblTrack(trackSeq, courseSeq, startspotSeq, endspotSeq, courselength) VALUES (seqTrack.nextVal, ?, ?, ?, 0)";
+            pstatTrack = conn.prepareStatement(trackSql);
 
             for (int i = 0; i < spotSeqs.size() - 1; i++) {
-                pstat.setLong(1, newCourseSeq);             // tblCourse FK
-                pstat.setLong(2, spotSeqs.get(i));          // startSpotSeq
-                pstat.setLong(3, spotSeqs.get(i + 1));      // endSpotSeq
-                pstat.executeUpdate();
+            	pstatTrack.setLong(1, newCourseSeq);             // tblCourse FK
+            	pstatTrack.setLong(2, spotSeqs.get(i));          // startSpotSeq
+            	pstatTrack.setLong(3, spotSeqs.get(i + 1));      // endSpotSeq
+            	pstatTrack.executeUpdate();
             }
 
             // --- 모든 작업 성공 시 커밋 ---
@@ -147,15 +135,92 @@ public class CourseDAO {
                 e2.printStackTrace();
             }
         } finally {
+        	//사용한 리소스를 생성 역순으로 닫아준다.
+        	try { 
+        		if (rsCourse != null) rsCourse.close(); 
+        	} catch (Exception e) {
+        		e.printStackTrace(); 
+        	}
+            try { 
+            	if (rsSpot != null) rsSpot.close(); 
+            } catch (Exception e) { 
+            	e.printStackTrace(); 
+            }
+            try { 
+            	if (pstatCourse != null) pstatCourse.close(); 
+            } catch (Exception e) {
+            	e.printStackTrace(); 
+            }
             try {
-                // 원래의 자동 커밋 상태로 복구
+            	if (pstatSpot != null) pstatSpot.close(); 
+            } catch (Exception e) {
+            	e.printStackTrace(); 
+            }
+            try {
+            	if (pstatTrack != null) pstatTrack.close(); 
+            } catch (Exception e) { 
+            	e.printStackTrace(); 
+            }
+            // 원래의 자동 커밋 상태로 복구
+            try {
                 conn.setAutoCommit(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 		
-		return 0;
+		return 0; //실패
+	}
+
+	//coursemain.do에서 호출하였음
+	/**
+	 *코스 검색용, 키워드로 승인된 코스를 조회한다. 
+	 * @param keyword 검색어
+	 * @return 검색 결과 코스 카드 정보가 담긴 리스트
+	 */
+	public List<CourseCardDTO> searchCourses(String keyword) {
+		List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
+		PreparedStatement pstat = null;
+		ResultSet rs = null;
+		try {
+			
+			String sql = "SELECT * FROM vwCourseCards WHERE courseName LIKE ? ORDER BY favoriteCount DESC, courseSeq DESC";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, "%" + keyword + "%");
+			
+			rs = pstat.executeQuery();
+			
+			while (rs.next()) {
+				
+				CourseCardDTO dto = new CourseCardDTO();
+				
+				dto.setCourseSeq(rs.getString("courseSeq"));
+	            dto.setCourseName(rs.getString("courseName"));
+	            dto.setTotalDistance(rs.getDouble("totalDistance"));
+	            dto.setFavoriteCount(rs.getInt("favoriteCount"));
+	            dto.setCurator(rs.getString("curator"));
+				
+				list.add(dto);				
+			}	
+			
+			return list;
+			
+		} catch (Exception e) {
+			System.out.println("CourseDAO.searchCourses failed");
+			e.printStackTrace();
+		} finally {
+	        // 자원 반납
+	        try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+	        try { if (pstat != null) pstat.close(); } catch (Exception e) { e.printStackTrace(); }
+	    }
+		return list;
+	}
+
+
+	public List<CourseCardDTO> getPopularCourses() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
