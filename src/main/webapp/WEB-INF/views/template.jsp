@@ -13,9 +13,8 @@
 		<!-- 헤더 -->
   		<%@include file="/WEB-INF/views/inc/header.jsp"%>
 
- 		 <!-- 사이드바 + 메인 -->
+ 		 <!-- 사이드바 + 메인컨텐츠 -->
   		<div class="content-wrapper">
-    		<%@include file="/WEB-INF/views/inc/sidebar.jsp"%>
     		<!-- 메인 컨텐츠 영역 -->
     		<div class="main-content" id="">
     		<!-- 여기 태그 내부에 본인 담당 페이지 html를 작성 -->
@@ -23,6 +22,7 @@
     			
     		</div>
     		
+    		<%@include file="/WEB-INF/views/inc/sidebar.jsp"%>
   		</div>
 	</div>
 	

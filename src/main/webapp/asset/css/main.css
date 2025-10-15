@@ -1,122 +1,287 @@
 body {
-  margin: 0;
-  font-family: 'Noto Sans KR', sans-serif;
-  background: #f5f6fa;
-  min-width: 800px;
+	margin: 0;
+	font-family: 'Noto Sans KR', sans-serif;
+	background: #f5f6fa;
 }
 
-/* 전체 레이아웃: 수직 스크롤 가능 */
 #layout {
-  display: block;
-  width: 100%;
+	display: block;
+	width: 100%;
 }
 
-/* 메인 콘텐츠 영역 */
 .main-content {
 	margin: 0 30px;
-	width: 100vw;
-	/* background-color: cornflowerblue; */
+	width: 100%;
+	order: 1;
 }
 
-/*-----------------------헤더입니다--------------------------*/
-/* 헤더는 고정xxx */
 header {
-  position:relative; background:#d50a76; height:100px;
-  display:flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,.1);
-  padding:0 25px;
-}
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-header .buttons button {
-  margin-left: 10px;
-  background: #fff;
-  color: black;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-/* 헤더 로고 영역 */
-.logo-area {
-  display: flex;
-  align-items: center;
-}
-.logo-link {
-  font-size:50px; 
-  font-weight:800; 
-  color:#fff; 
-  text-decoration:none;
-  padding:4px 8px; 
-  border-radius:6px;
-/*   margin-left: 25px; 오른쪽으로 살짝 이동 */
-  font-style: italic;
-  transition: all 0.2s ease;
-}
-.logo-link:hover{ 
-  color: #ffe6f0;
-  text-shadow: 0 0 8px rgba(255,255,255,0.5); /* 빛나는 효과 */
+	position: relative;
+	background: #d50a76;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+	padding: 0 25px;
+	z-index: 1003;
 }
 
-/*----------------------- 사이드바입니다 ---------------------*/
-/* 사이드바 + 메인: 좌우 배치 */
+.header-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	position: static;
+}
+
+header .buttons button {
+	margin-left: 10px;
+	background: #fff;
+	color: black;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.logo-area {
+	display: flex;
+	align-items: center;
+}
+
+.logo-link {
+	font-size: 50px;
+	font-weight: 800;
+	color: #fff;
+	text-decoration: none;
+	padding: 4px 8px;
+	border-radius: 6px;
+	font-style: italic;
+	transition: all 0.2s ease;
+}
+
+.logo-link:hover {
+	color: #ffe6f0;
+	text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
 .content-wrapper {
-  display: flex;
-  align-items: flex-start;
+	display: flex;
+	align-items: flex-start;
 }
-/* 사이드바 */
+
+/* ▼▼▼ [수정 1] 사이드바 컨테이너에서 패딩과 스크롤 제거 ▼▼▼ */
 #sidebar {
-  width: 230px;
-  background: #fff;
-  color: black;
-  padding: 20px;
-  position: sticky; /* ✅ 고정으로 변경 */
-  top: 0;           /* ✅ 스크롤 기준 상단 고정 위치 */
-  height: 100vh;    /* ✅ 화면 전체 높이 */
-  overflow-y: auto; /* ✅ 사이드바 내용이 넘치면 내부 스크롤 */
-  flex-shrink: 0;          /* ✅ flexbox 줄어들기 금지 */
-  white-space: nowrap;     /* ✅ 내부 글자 줄바꿈 금지 */
-  min-width: 230px;        /* ✅ 최소폭 보장 (지금 width값) */
+	width: 230px;
+	background: #fff;
+	color: black;
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	flex-shrink: 0;
+	order: 2;
 }
-/* 메뉴버튼 */
+
+/* ▼▼▼ [수정 2] 실제 내용물(nav)에 패딩과 스크롤 적용 ▼▼▼ */
+#sidebar nav {
+	padding: 20px;
+	height: 100%;
+	overflow-y: auto;
+	box-sizing: border-box;
+}
+
+#sidebar nav ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#sidebar nav hr {
+	border: none;
+	border-top: 1px solid #e9ecef;
+	margin: 15px 0;
+}
+
 .menu-btn {
-  background: none;
-  border: none;
-  color: black;
-  font-size: 16px;
-  font-weight: 700; /* ✅ 글씨 굵게 */
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 12px 0; /* ✅ 버튼 간격 넓게 */
+	background: none;
+	border: none;
+	color: black;
+	font-size: 16px;
+	font-weight: 700;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 12px 0;
 }
-/* 화살표 아이콘 (기본 ▼ 상태) */
+
 .menu-btn::after {
-  content: "▼";
-  font-size: 12px;
-  margin-left: 8px;
-  transition: transform 0.2s ease;
+	content: "▼";
+	font-size: 12px;
+	margin-left: 8px;
+	transition: transform 0.2s ease;
 }
-/* 버튼이 active(열림 상태)일 때 화살표 회전 (▲) */
+
 .menu-btn.active::after {
-  transform: rotate(180deg);
+	transform: rotate(180deg);
 }
-/* 서브메뉴 */
+
 .submenu {
-  display: none;
-  list-style: none;
-  margin: 0;
-  padding: 5px 15px;
+	/* display: none;
+	list-style-type: none;
+	padding-left: 0;
+	margin: 0; */
+	list-style-type: none;
+	padding-left: 15px; /* 안쪽으로 살짝 들여쓰기 */
+	margin: 0;
+	
+	/* ▼▼▼ 애니메이션을 위한 핵심 스타일 ▼▼▼ */
+	max-height: 0; /* 평소에는 높이를 0으로 만들어 숨김 */
+	overflow: hidden; /* 높이가 0일 때 내용이 삐져나오지 않도록 함 */
+	transition: max-height 0.35s ease-in-out; /* max-height가 바뀔 때 0.35초 동안 부드럽게 전환 */
 }
-/* 버튼 간 간격 */
-nav ul > li {
-  margin-bottom: 12px; /* ✅ 각 메뉴 그룹 간격 */
+
+.submenu li a {
+	display: block;
+	padding: 10px 15px;
+	text-decoration: none;
+	color: #555;
+	border-radius: 4px;
+	transition: background-color 0.2s ease;
 }
+
+.submenu li a:hover {
+	background-color: #f0f0f0;
+	color: #d50a76;
+}
+
+#sidebar nav ul>li {
+	/* position: relative; */
+	margin-bottom: 12px;
+}
+
 .menu-btn.active + .submenu {
-  display: block;
+	/* display: block; */
+	/* opacity: 1; 불투명하게 만듦
+	visibility: visible; 보이도록 함
+	transform: translateY(0); 원래 위치로 이동 */
+	max-height: 500px; /* 펼쳐질 최대 높이 (내용을 모두 담을 수 있는 충분한 값) */
+}
+
+.hamburger-btn, .sidebar-buttons, .mobile-only-hr {
+	display: none;
+}
+
+/* --- 화면 너비 800px 이하일 때 적용 --- */
+@media ( max-width : 800px) {
+	.content-wrapper {
+		display: block;
+	}
+	header .buttons {
+		display: none;
+	}
+	.hamburger-btn {
+		display: block;
+		position: absolute;
+		right: 25px;
+		width: 30px;
+		height: 22px;
+		cursor: pointer;
+		background: none;
+		border: none;
+		z-index: 1002;
+	}
+	.hamburger-btn .is-open {
+		position: absolute;
+		top: 39px;
+	}
+	.hamburger-btn span {
+		display: block;
+		position: absolute;
+		height: 3px;
+		width: 100%;
+		background: #fff;
+		border-radius: 3px;
+		left: 0;
+		transition: all .25s ease-in-out;
+	}
+	.hamburger-btn span:nth-child(1) {
+		top: 0px;
+	}
+	.hamburger-btn span:nth-child(2) {
+		top: 10px;
+	}
+	.hamburger-btn span:nth-child(3) {
+		top: 20px;
+	}
+	.hamburger-btn.is-open span:nth-child(1) {
+		top: 10px;
+		transform: rotate(135deg);
+	}
+	.hamburger-btn.is-open span:nth-child(2) {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+	.hamburger-btn.is-open span:nth-child(3) {
+		top: 10px;
+		transform: rotate(-135deg);
+	}
+
+	/* ▼▼▼ [수정 3] 모바일 사이드바 높이 계산 수정 ▼▼▼ */
+	aside#sidebar {
+		/* position: fixed;
+		top: 100px;
+		right: 0;
+		width: 280px;
+		height: calc(100vh - 100px); ✅ 헤더 높이를 뺀 정확한 높이 계산
+		z-index: 1001;
+		box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+		transform: translateX(100%);
+		transition: transform 0.3s ease-in-out; */
+		position: absolute;
+		top: 100px;
+		height: calc(100vh - 100px); 
+		right: 0;
+		width: 280px;
+		z-index: 1001;
+		box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+		transform: translateX(100%);
+		transition: transform 0.3s ease-in-out;
+	}
+	aside#sidebar nav {
+		height: 100%; /* 부모(aside)의 높이를 꽉 채움 */
+		overflow-y: auto; /* 내용이 넘칠 때만 스크롤바 표시 */
+		padding: 20px; /* 스크롤되는 내용물에 직접 여백 적용 */
+		box-sizing: border-box; /* 패딩이 높이에 영향을 주지 않도록 설정 */
+	}
+	#sidebar.is-open {
+		transform: translateX(0);
+	}
+	.main-content {
+		margin: 0 15px;
+	}
+	.sidebar-buttons, .mobile-only-hr {
+		display: block;
+	}
+	.sidebar-buttons {
+		display: flex;
+		gap: 10px;
+		padding: 10px 0;
+	}
+	.sidebar-buttons a {
+		flex: 1;
+		text-align: center;
+		padding: 8px;
+		text-decoration: none;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+		color: #333;
+		font-size: 14px;
+	}
+	.sidebar-buttons a:first-child {
+		background-color: #d50a76;
+		color: #fff;
+		border-color: #d50a76;
+	}
 }

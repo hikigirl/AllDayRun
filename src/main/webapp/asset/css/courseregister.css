@@ -35,7 +35,7 @@
 	position: relative;
 }
 
-.input-group span {
+.input-group > span {
 	width: 70px;
 	font-weight: bold;
 	font-size: 15px;
