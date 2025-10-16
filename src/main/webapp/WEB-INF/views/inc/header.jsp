@@ -11,17 +11,9 @@
 			</a>
 		</div>
 
-		<%-- ▼▼▼ 햄버거 버튼 HTML 추가 ▼▼▼ --%>
-		<button class="hamburger-btn" aria-label="메뉴 열기">
-			<span></span>
-			<span></span>
-			<span></span>
-		</button>
-		<%-- ▲▲▲ 햄버거 버튼 HTML 추가 ▲▲▲ --%>
-
 		<div class="buttons">
-			<button>로그인</button>
-			<button>회원가입</button>
+			<a href="#"><span>로그인</span></a>
+			<a href="#"><span>회원가입</span></a>
 		</div>
 	</div>
 </header>

@@ -3,47 +3,60 @@
 
 <aside id="sidebar">
 	<nav>
-		<%-- ❗전체를 <ul> 태그로 한번 감싸주세요 --%>
 		<ul>
-			
-			<%-- ▼▼▼ 모바일용 로그인/회원가입 링크 추가 ▼▼▼ --%>
-			
-
-			<li class="sidebar-buttons">
-				<a href="#">로그인</a>
-				<a href="#">회원가입</a>
-			</li>
-			
-			<hr class="mobile-only-hr">
-			<%-- ▲▲▲ 모바일용 로그인/회원가입 링크 추가 ▲▲▲ --%>
-
-
-			<li><button class="menu-btn">커뮤니티</button>
+			<li>
+				<a href="#" class="menu-btn"><span>러닝 활동 기록</span></a>
 				<ul class="submenu">
-					<li><a href="#">자유게시판</a></li>
-					<li><a href="#">공지 및 건의게시판</a></li>
-					<li><a href="#">좋아요한 글</a></li>
-					<li><a href="#">스크랩한 글</a></li>
+					<li><a href="#">러닝기록 서브메뉴</a></li>
+					<li><a href="#">러닝기록 서브메뉴</a></li>
+					<li><a href="#">러닝기록 서브메뉴</a></li>
+					<li><a href="#">러닝기록 서브메뉴</a></li>
 				</ul>
 			</li>
 
 			<hr>
 
-			<li><button class="menu-btn">코스</button>
+			<li>
+				<a href="/alldayrun/course/coursemain.do" class="menu-btn"><span>코스</span></a>
 				<ul class="submenu">
 					<li><a href="#">코스 목록</a></li>
 					<li><a href="/alldayrun/course/courseregister.do">코스 등록 신청</a></li>
 				</ul>
 			</li>
+
+			<hr>
+
+			<li>
+				<a href="#" class="menu-btn"><span>크루</span></a>
+				<ul class="submenu">
+					<li><a href="#">크루 서브메뉴 </a></li>
+					<li><a href="#">크루 서브메뉴 </a></li>
+					<li><a href="#">크루 서브메뉴 </a></li>
+					<li><a href="#">크루 서브메뉴 </a></li>
+				</ul>
+			</li>
 			
 			<hr>
 			
-			<li><button class="menu-btn">크루</button>
+			<li>
+				<a href="#" class="menu-btn"><span>챌린지</span></a>
 				<ul class="submenu">
-					<li><a href="#">크루전용 게시판</a></li>
-					<li><a href="#">크루전용 게시판</a></li>
-					<li><a href="#">크루전용 게시판</a></li>
-					<li><a href="#">크루전용 게시판</a></li>
+					<li><a href="#">챌린지 서브메뉴</a></li>
+					<li><a href="#">챌린지 서브메뉴</a></li>
+					<li><a href="#">챌린지 서브메뉴</a></li>
+					<li><a href="#">챌린지 서브메뉴</a></li>
+				</ul>
+			</li>
+			
+			<hr />
+			
+			<li>
+				<a href="#" class="menu-btn"><span>커뮤니티</span></a>
+				<ul class="submenu">
+					<li><a href="#">자유게시판</a></li>
+					<li><a href="#">공지 및 건의게시판</a></li>
+					<li><a href="#">좋아요한 글</a></li>
+					<li><a href="#">스크랩한 글</a></li>
 				</ul>
 			</li>
 
