@@ -2,6 +2,7 @@ package com.test.run.course;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,44 +23,58 @@ public class CourseMain extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		
 		CourseDAO dao = new CourseDAO();
-		List<CourseCardDTO> courseList = null;
+		//List<CourseCardDTO> courseList = null;
 		
 		//1. 검색어 확인, 검색 요청인지 일반 페이지 로딩인지 체크
 		String keyword = req.getParameter("keyword");
 		
 		if (keyword != null && !keyword.trim().isEmpty()) {
-			//검색어가 있는 경우, 검색 기능 수행
+			//[검색 시나리오] 검색어가 있는 경우, 검색 기능 수행
 			System.out.println("[DEBUG] Searching for keyword: " + keyword);
-			courseList = dao.searchCourses(keyword); //DB 작업(SELECT)
+			List<CourseCardDTO> searchList = dao.searchCourses(keyword); //DB 작업(SELECT)
 			
 			//검색 후에도 입력창에 검색어 남기기 위해 request에 저장
 			req.setAttribute("keyword", keyword);
+			req.setAttribute("searchList", searchList);
 		} else {
-			//검색어가 없는 경우(일반 접근)
+			//[일반 페이지 로딩] 검색어가 없는 경우(일반 접근)
 			
 			HttpSession session = req.getSession();
-			String accountId = (String)session.getAttribute("loginUserEmail");
-			//임시-로그인유저 체크되는지확인용
-			//String accountId = "admin@naver.com";
+			String accountId = (String)session.getAttribute("accountId");
+			//임시-로그인유저 체크되는지 확인용
+//			String accountId = "admin@naver.com";
 			
 			if (accountId != null) {
-				//로그인 사용자 - 지역 기반 추천 코스 조회
-				System.out.println("[DEBUG] Logged-in user (" + accountId + "). Getting recommended courses.");
-				//아래 두줄 구현 필요
-//				String userLocation = dao.getUserLocation(accountId);
-//				courseList = dao.getRecommendedCourses(userLocation);
-				//임시 - 로그인 사용자도 인기순 코스 조회 일단은
-				courseList = dao.getPopularCourses();
+				//로그인 사용자 - 인기 코스 3개 + 지역 기반 추천 코스 3개
+				//1. 인기 코스 3개 조회
+				System.out.println("[DEBUG] Logged-in user (" + accountId + "). Getting popular courses.");
+				List<CourseCardDTO> popularList = dao.getPopularCourses(3);
+				
+				//2. 지역 기반 추천 코스 3개 조회
+				
+				Map<String, String> userLocationMap = dao.getUserLocation(accountId);
+				List<CourseCardDTO> recommendedList = null;
+				
+				if(userLocationMap != null && !userLocationMap.isEmpty()) {
+					System.out.println("[DEBUG] Logged-in user (" + accountId + "). Getting recommended courses.");
+					String regionToSearch = userLocationMap.get("regionCounty");
+					recommendedList = dao.getRecommendedCourses(regionToSearch, 3);					
+				}
+				// 3. JSP에 별도의 이름으로 전달
+	            req.setAttribute("popularList", popularList);
+	            req.setAttribute("recommendedList", recommendedList);
+				
 			} else {
                 // 비로그인 사용자: 인기순 코스 조회
                 System.out.println("[DEBUG] Guest user. Getting popular courses.");
-                courseList = dao.getPopularCourses();
+                List<CourseCardDTO> popularList = dao.getPopularCourses(6);
+                req.setAttribute("popularList", popularList);
             }
 			
 		}
 		
 		// 3. 결과 전달: 조회된 코스 목록을 JSP에서 사용할 수 있도록 request에 저장
-        req.setAttribute("courseList", courseList);
+//        req.setAttribute("courseList", courseList);
 		
         //jsp로 다시 넘김
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/course/coursemain.jsp");

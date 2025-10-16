@@ -41,6 +41,7 @@ public class CourseRegister extends HttpServlet {
 		
 		//현재 세션을 가져옴
 		HttpSession session = req.getSession();
+		System.out.println("[DEBUG] CourseRegister.java req.getSession: " + session);
 		
 		//세션에 저장된 loginUserEmail이라는 값을 꺼내서 accountId 변수에 저장,
 		//getAttribute 실패시 accountId==null
@@ -48,8 +49,8 @@ public class CourseRegister extends HttpServlet {
 		
 		//세션 연동 부분, 밑에 if문까지 주석 풀기
 		/*
-		String accountId = (String) session.getAttribute("loginUserEmail");
-		
+		String accountId = (String) session.getAttribute("accountId");
+		System.out.println("[DEBUG] CourseRegister.java 현재 로그인한 유저: " + accountId);
 		
 		
 		if (accountId == null) {

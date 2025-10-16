@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -34,7 +36,7 @@ public class CourseDAO {
 		}
 	}
 	
-	
+	//자원 닫기
 	public void close() {
 		try {
 			if (this.conn != null) this.conn.close();
@@ -44,6 +46,10 @@ public class CourseDAO {
 			e.printStackTrace();
 		}
 	}
+	//관리자 페이지에서 사용 예정인 메서드 2가지 추가 필요
+//	adminGetPendingCourses() 	- '대기' 상태인 코스 목록을 조회(select) 
+//	adminUpdatePendingCourses() - 코스의 '대기' 상태를 '승인'으로 업데이트
+	
 
 	//courseRegister.do에서 호출
 	public int addCourseTransaction(String courseName, String accountId, List<SpotDTO> spots) {
@@ -218,21 +224,22 @@ public class CourseDAO {
 		return list;
 	}
 
+	//coursemain.do에서 호출하였음
 	/**
 	 * 인기 코스 목록 조회(비회원 사용자)
 	 * 스크랩순으로 정렬한다.
 	 * @return 코스 카드 정보가 담긴 리스트
 	 */
-	public List<CourseCardDTO> getPopularCourses() {
+	public List<CourseCardDTO> getPopularCourses(int cardCount) {
 		List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
 		PreparedStatement pstat = null;
 		ResultSet rs = null;
 		try {
 			
-			String sql = "SELECT * FROM vwCourseCards ORDER BY FAVORITECOUNT DESC, courseSeq DESC";
+			String sql = "SELECT * FROM (SELECT * FROM vwCourseCards ORDER BY FAVORITECOUNT DESC, courseSeq DESC) WHERE rownum <=?";
 			
 			pstat = conn.prepareStatement(sql);
-			
+			pstat.setInt(1, cardCount);
 			rs = pstat.executeQuery();
 
 			while (rs.next()) {
@@ -260,14 +267,86 @@ public class CourseDAO {
 		return list;
 	}
 
+	//coursemain.do에서 호출하였음
 	/**
 	 * 개인 상세정보 테이블에서 사용자 주소를 얻어오는 메서드
 	 * @param accountId
-	 * @return
+	 * @return 사용자 주소를 담은 map
 	 */
-	public String getUserLocation(String accountId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, String> getUserLocation(String accountId) {
+		Map<String, String> locationMap = null;
+		PreparedStatement pstat = null;
+		ResultSet rs = null;
+		try {
+
+			String sql = "SELECT regionCity, regionCounty, regionDistrict FROM tblAccountInfoDetail WHERE accountId = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, accountId);
+
+			rs = pstat.executeQuery();
+
+			if (rs.next()) {
+				locationMap = new HashMap<String, String>();
+				locationMap.put("city", rs.getString("regionCity"));
+				locationMap.put("county", rs.getString("regionCounty"));
+				locationMap.put("district", rs.getString("regionDistrict"));
+			}
+
+		} catch (Exception e) {
+			System.out.println("CourseDAO.getUserLocation failed");
+			e.printStackTrace();
+		} finally {
+	        // 자원 반납
+	        try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+	        try { if (pstat != null) pstat.close(); } catch (Exception e) { e.printStackTrace(); }
+	    }
+		return locationMap;
+	}
+
+	//coursemain.do에서 호출하였음
+	/**
+	 * 사용자 주소 기반으로 추천 코스 목록을 조회하는 메서드
+	 * @param userLocation 사용자 주소 중 시,군,구
+	 * @param cardCount 표시할 카드 개수
+	 * @return 주소기반 추천코스 리스트
+	 */
+	public List<CourseCardDTO> getRecommendedCourses(String userLocation, int cardCount) {
+		List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
+	    PreparedStatement pstat = null;
+	    ResultSet rs = null;
+		try {
+			
+			String sql = "SELECT * FROM (SELECT v.* FROM vwCourseCards v INNER JOIN tblSpot s ON v.courseSeq = s.courseSeq WHERE s.place LIKE ? GROUP BY v.courseSeq, v.courseName, v.totalDistance, v.favoriteCount, v.curator, v.accountId ORDER BY v.favoriteCount DESC) WHERE ROWNUM <= ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, "%" + userLocation + "%");
+			pstat.setInt(2, cardCount);
+			rs = pstat.executeQuery();
+			
+			while (rs.next()) {
+				
+				CourseCardDTO dto = new CourseCardDTO();
+				
+				dto.setCourseSeq(rs.getString("courseSeq"));
+	            dto.setCourseName(rs.getString("courseName"));
+	            dto.setTotalDistance(rs.getDouble("totalDistance"));
+	            dto.setFavoriteCount(rs.getInt("favoriteCount"));
+	            dto.setCurator(rs.getString("curator"));
+	            dto.setAccountId(rs.getString("accountId"));
+				
+				list.add(dto);				
+			}
+		} catch (Exception e) {
+			System.out.println("CourseDAO.getRecommendedCourses failed");
+			e.printStackTrace();
+		} finally {
+	        // DB 자원을 반드시 반납합니다.
+	        try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+	        try { if (pstat != null) pstat.close(); } catch (Exception e) { e.printStackTrace(); }
+	    }
+		
+		return list;
 	}
 
 
