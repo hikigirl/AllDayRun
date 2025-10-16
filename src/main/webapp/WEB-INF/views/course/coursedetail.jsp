@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
-
+	<link rel="stylesheet" href="/alldayrun/asset/css/coursedetail.css" />
 </head>
 <body>
 	
@@ -17,30 +17,64 @@
   		<div class="content-wrapper">
     		<!-- 메인 컨텐츠 영역 -->
     		<div class="main-content" id="courseDetail-main">
-    		<!-- 여기 태그 내부에 본인 담당 페이지 html를 작성 -->
-    			<h2>코스 상세 정보</h2>
-    			<div>지도 컨테이너(이미지 지도 출력)</div>
-    			<hr>
-    			<div>
-    				코스 정보 컨테이너
-    				<div>코스명</div>
-    				<div>거리</div>
-    				<div>등록자</div>
+    			<div class="detail-section">
+    				<h2 class="section-title">코스 경로</h2>
+                    <div id="map-container">
+                        <!-- 나중에 JavaScript가 이 곳에 지도를 그립니다. -->
+                    </div>
     			</div>
-    			<hr>
-    			<div>즐겨찾기 버튼</div>
-    			<div>본인이 등록한 코스인 경우 삭제 요청 버튼</div>
-    			<hr>
-    			<div>
-    				코스 후기(댓글) 컨테이너
-    				<div>
-    					후기1
-    					<div>작성자</div>
-    					<div>작성일</div>
-    					<div>댓글내용</div>
-    				</div>
+    			
+    			<div class="detail-section">
+    				<div id="course-info-container">
+                        <h1 id="course-title">${course.courseName}</h1>
+                        <div class="info-item">
+                            <span class="label">총 거리</span>
+                            <span class="value">${course.totalDistance} km</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">등록자</span>
+                            <span class="value">${course.curator}</span>
+                        </div>
+                        
+                        <div id="action-buttons">
+                            <%-- 로그인 상태일 때만 즐겨찾기 버튼 표시 --%>
+                            <c:if test="${not empty sessionScope.loginUserEmail}">
+                                <button type="button" class="action-btn" id="btn-favorite">⭐ 즐겨찾기 추가</button>
+                            </c:if>
+
+                            <%-- 본인이 등록한 코스일 때만 삭제 요청 버튼 표시 --%>
+                            <c:if test="${sessionScope.loginUserEmail == course.accountId}">
+                                <button type="button" class="action-btn" id="btn-delete">🗑️ 삭제 요청</button>
+                            </c:if>
+                        </div>
+                    </div>
     			
     			</div>
+    			
+    			<hr id="coursedetail-hr" />
+    			
+    			<div class="detail-section">
+    				<h2 class="section-title">코스 후기 (${fn:length(reviewList)})</h2>
+                    <div id="review-container">
+                        <%-- c:forEach를 사용해 댓글 목록을 반복 --%>
+                        <c:forEach var="review" items="${reviewList}">
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <span class="review-author">${review.authorNickname}</span>
+                                    <span class="review-date">${review.regDate}</span>
+                                </div>
+                                <p class="review-content">${review.content}</p>
+                            </div>
+                        </c:forEach>
+                        
+                        <c:if test="${empty reviewList}">
+                            <p>아직 등록된 후기가 없습니다. 첫 후기를 남겨주세요!</p>
+                        </c:if>
+                    </div>
+                    <%-- TODO: 댓글 작성 폼 추가 --%>
+    			</div>
+    			
+    			
     			
     		</div>
     		

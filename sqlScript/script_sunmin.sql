@@ -173,3 +173,5 @@ SELECT * FROM (
 ) WHERE ROWNUM <= ?
 
 SELECT * FROM (SELECT v.* FROM vwCourseCards v INNER JOIN tblSpot s ON v.courseSeq = s.courseSeq WHERE s.place LIKE ? GROUP BY v.courseSeq, v.courseName, v.totalDistance, v.favoriteCount, v.curator, v.accountId ORDER BY v.favoriteCount DESC) WHERE ROWNUM <= ?;
+
+DELETE FROM TBLACCOUNTINFO WHERE accountid='wleer157@gmail.com';
