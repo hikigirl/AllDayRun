@@ -47,11 +47,36 @@
 }
 
 /* 추천 코스 컨테이너 */
-#recommend-container #message {
+/* #recommend-container #message {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+} */
+
+/* 모든 .message 요소에 공통적으로 적용될 기본 스타일 */
+.message {
+    padding: 10px 0; /* 위아래 약간의 여백 */
+    margin-bottom: 20px; /* 다른 요소와의 간격 */
+    text-align: center; /* 기본적으로 텍스트를 중앙 정렬 */
 }
+
+/* [일반 텍스트] .message.plain 스타일 */
+.message.plain {
+    font-size: 16px; /* 일반 본문 텍스트 크기 */
+    color: #555;    /* 부드러운 회색 계열 */
+    font-weight: normal; /* 일반 굵기 */
+}
+
+/* [제목] .message.title 스타일 (h2 태그 느낌) */
+.message.title {
+    font-size: 24px;   /* h2 태그와 유사한 큰 크기 */
+    font-weight: bold; /* 굵은 글씨체 */
+    color: #2c3e50;  /* 강조되는 진한 색상 */
+    border-bottom: 2px solid #f0f0f0; /* 제목 아래에 얇은 구분선 */
+    padding-bottom: 15px; /* 구분선과의 간격 */
+    text-align: left; /* 제목은 보통 왼쪽 정렬 */
+}
+
 
 /* ✅ [핵심] 추천 코스 그리드 (2x2 배치) */
 .course-grid {
