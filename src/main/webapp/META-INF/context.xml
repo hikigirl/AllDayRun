@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <Resource name="jdbc/pool"
+     <Resource name="jdbc/pool"
               auth="Container"
               type="javax.sql.DataSource"
               driverClassName="oracle.jdbc.driver.OracleDriver"
@@ -10,7 +10,7 @@
               maxTotal="20"
               maxIdle="10"
               maxWaitMillis="-1"/>
-    <!-- <Resource name="jdbc/pool"
+     <!--    <Resource name="jdbc/pool"
               auth="Container"
               type="javax.sql.DataSource"
               driverClassName="oracle.jdbc.driver.OracleDriver"
@@ -19,5 +19,5 @@
               password="java1234"
               maxTotal="20"
               maxIdle="10"
-              maxWaitMillis="-1"/> -->
+              maxWaitMillis="-1"/>  -->
 </Context>

@@ -349,12 +349,171 @@ public class CourseDAO {
 		return list;
 	}
 
+	public CourseDetailDTO getCourseDetails(String courseSeq) {
+		CourseDetailDTO courseDetail = null;
+	    PreparedStatement pstat = null;
+	    ResultSet rs = null;
 
+	    try {
+	        // --- 1. 코스의 기본 정보 조회 (vwCourseCards 뷰 사용) ---
+	        String sql = "SELECT * FROM vwCourseCards WHERE courseSeq = ?";
+	        
+	        pstat = conn.prepareStatement(sql);
+	        pstat.setString(1, courseSeq);
+	        rs = pstat.executeQuery();
+	        
+	        if (rs.next()) {
+	            courseDetail = new CourseDetailDTO();
+	            
+	            // DTO에 코스 기본 정보 설정
+	            courseDetail.setCourseSeq(rs.getString("courseSeq"));
+	            courseDetail.setCourseName(rs.getString("courseName"));
+	            courseDetail.setTotalDistance(rs.getDouble("totalDistance"));
+	            courseDetail.setFavoriteCount(rs.getInt("favoriteCount"));
+	            courseDetail.setCurator(rs.getString("curator"));
+	            courseDetail.setAccountId(rs.getString("accountId"));
+
+	            // --- 2. 해당 코스의 지점(Spot) 목록 조회 ---
+	            // 이전에 만든 getSpotsByCourseSeq 메서드를 재사용합니다.
+	            List<SpotDTO> spotList = getSpotsByCourseSeq(courseSeq);
+	            courseDetail.setSpots(spotList);
+
+	            // --- 3. (미래 확장) 해당 코스의 후기(Review) 목록 조회 ---
+	            // List<ReviewDTO> reviewList = getReviewsByCourseSeq(courseSeq);
+	            // courseDetail.setReviews(reviewList);
+	        }
+	        
+	    } catch (Exception e) {
+	        System.out.println("CourseDAO.getCourseDetails 실패");
+	        e.printStackTrace();
+	    } finally {
+	        // 자원 반납
+	        try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+	        try { if (pstat != null) pstat.close(); } catch (Exception e) { e.printStackTrace(); }
+	    }
+	    
+	    return courseDetail; // 조회 실패 시 null 반환
+	}
+
+	public List<SpotDTO> getSpotsByCourseSeq(String courseSeq) {
+		List<SpotDTO> list = new ArrayList<>();
+	    PreparedStatement pstat = null;
+	    ResultSet rs = null;
+
+	    try {
+	        // [핵심] spotStep 순서대로 정렬하여 경로 순서를 보장합니다.
+	        String sql = "SELECT * FROM tblSpot WHERE courseSeq = ? ORDER BY spotStep ASC";
+	        
+	        pstat = conn.prepareStatement(sql);
+	        pstat.setString(1, courseSeq);
+	        rs = pstat.executeQuery();
+	        
+	        while (rs.next()) {
+	            SpotDTO dto = new SpotDTO();
+	            
+	            // DB 조회 결과를 SpotDTO 객체에 매핑합니다.
+	            dto.setSpotSeq(rs.getString("spotSeq"));
+	            dto.setPlace(rs.getString("place")); // 사용자가 입력한 별명
+	            dto.setLat(rs.getString("lat"));
+	            dto.setLng(rs.getString("lng"));
+	            dto.setCourseSeq(rs.getString("courseSeq"));
+	            dto.setSpotStep(rs.getInt("spotStep"));
+	            
+	            list.add(dto);
+	        }
+	        
+	    } catch (Exception e) {
+	        System.out.println("CourseDAO.getSpotsByCourseSeq 실패");
+	        e.printStackTrace();
+	    } finally {
+	        // DB 자원을 반드시 반납합니다.
+	        try {
+	            if (rs != null) rs.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        try {
+	            if (pstat != null) pstat.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    return list;
+	}
+
+	/**
+	 * 페이징 처리를 위해 승인된 모든 코스의 총 개수를 반환합니다.
+	 * @return 승인된 코스의 총 개수
+	 */
+	public int getTotalCourseCount() {
+		int count = 0;
+	    PreparedStatement pstat = null;
+	    ResultSet rs = null;
+	    
+	    try {
+	        // vwCourseCards 뷰에서 총 개수만 빠르게 세어옵니다.
+	        String sql = "SELECT COUNT(*) as cnt FROM vwCourseCards";
+	        pstat = conn.prepareStatement(sql);
+	        rs = pstat.executeQuery();
+
+	        if (rs.next()) {
+	            count = rs.getInt("cnt");
+	        }
+	    } catch (Exception e) {
+	        System.out.println("CourseDAO.getTotalCourseCount 실패");
+	        e.printStackTrace();
+	    } finally {
+	        try { if (rs != null) rs.close(); } catch (Exception e) {}
+	        try { if (pstat != null) pstat.close(); } catch (Exception e) {}
+	    }
+	    return count;
+	    
+	    
+		
+	}
+
+	/**
+	 * 지정된 범위(페이지)에 해당하는 모든 코스 목록을 조회합니다.
+	 * @param start 시작 행 번호
+	 * @param end 끝 행 번호
+	 * @return 해당 페이지의 코스 카드 정보가 담긴 리스트
+	 */
+	public List<CourseCardDTO> getAllCourses(int start, int end) {
+	    List<CourseCardDTO> list = new ArrayList<>();
+	    PreparedStatement pstat = null;
+	    ResultSet rs = null;
+
+	    try {
+	        // [핵심 SQL] Oracle에서 페이징을 처리하는 ROWNUM 쿼리
+	        String sql = "SELECT * FROM (SELECT a.*, ROWNUM as rnum FROM (SELECT * FROM vwCourseCards ORDER BY courseSeq DESC) a) WHERE rnum BETWEEN ? AND ?";
+	        
+	        pstat = conn.prepareStatement(sql);
+	        pstat.setInt(1, start);
+	        pstat.setInt(2, end);
+	        rs = pstat.executeQuery();
+
+	        while (rs.next()) {
+	            CourseCardDTO dto = new CourseCardDTO();
+	            // (DTO에 데이터 담는 로직은 getPopularCourses와 동일)
+	            dto.setCourseSeq(rs.getString("courseSeq"));
+	            dto.setCourseName(rs.getString("courseName"));
+	            dto.setTotalDistance(rs.getDouble("totalDistance"));
+	            dto.setFavoriteCount(rs.getInt("favoriteCount"));
+	            dto.setCurator(rs.getString("curator"));
+	            dto.setAccountId(rs.getString("accountId"));
+	            list.add(dto);
+	        }
+	    } catch (Exception e) {
+	        System.out.println("CourseDAO.getAllCourses 실패");
+	        e.printStackTrace();
+	    } finally {
+	        try { if (rs != null) rs.close(); } catch (Exception e) {}
+	        try { if (pstat != null) pstat.close(); } catch (Exception e) {}
+	    }
+	    return list;
+	}
 	
-	
-	
-	
-	
-	
+
 
 }

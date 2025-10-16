@@ -19,7 +19,7 @@
 			<li>
 				<a href="/alldayrun/course/coursemain.do" class="menu-btn"><span>코스</span></a>
 				<ul class="submenu">
-					<li><a href="#">코스 목록</a></li>
+					<li><a href="/alldayrun/course/courselist.do">코스 목록</a></li>
 					<li><a href="/alldayrun/course/courseregister.do">코스 등록 신청</a></li>
 				</ul>
 			</li>

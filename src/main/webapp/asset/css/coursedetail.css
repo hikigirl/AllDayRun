@@ -1,6 +1,8 @@
 @charset "UTF-8";
 /* 기본 레이아웃 스타일 */
-
+#courseDetail-main {
+	margin-top:30px;
+}
 .detail-section {
 	margin-bottom: 30px;
 }
@@ -11,6 +13,10 @@
 	margin-bottom: 15px;
 	border-bottom: 2px solid #f0f0f0;
 	padding-bottom: 10px;
+}
+
+.spot-details {
+	width: 250px;
 }
 
 #coursedetail-hr {
@@ -37,15 +43,22 @@
 /* 코스 정보 영역 */
 #course-info-container {
 	padding: 20px;
+	margin-top: 80.5px;
+	margin-right: 30px;
 	border: 1px solid #e0e0e0;
 	border-radius: 8px;
 	background-color: #fff;
 }
 
 #course-title {
-	font-size: 28px;
+	font-size: 20px;
 	font-weight: bold;
 	margin-bottom: 20px;
+}
+#spot-list-container {
+	margin-top: 20px; 
+	border-top: 1px solid #eee; 
+	padding-top: 20px;
 }
 
 .info-item {
@@ -92,9 +105,49 @@
 }
 
 #btn-delete {
-	background-color: #dc3545;
+	background-color: #2c3e50;
 	color: #fff;
 }
+
+.custom-name-input {
+	font-size: 13px;
+}
+
+/* ================================== */
+/* 상세 페이지 2단 레이아웃 스타일     */
+/* ================================== */
+
+/* ================================== */
+/* 상세 페이지 Grid 레이아웃 스타일     */
+/* ================================== */
+
+/* ✅ [핵심] main-content 자체를 Grid 컨테이너로 만듭니다. */
+.main-content {
+    display: grid;
+    /* 65% 너비의 열(지도)과 35% 너비의 열(정보)을 만듭니다. */
+    grid-template-columns: 65% 35%; 
+    gap: 30px; /* 열 사이의 간격 */
+    align-items: start; /* 높이가 다른 열의 상단을 맞춤 */
+}
+
+/* 지도, 코스 정보, 후기 등 각 섹션이 Grid의 어느 영역에 위치할지 지정 */
+#map-section {
+    grid-column: 1 / 2; /* 첫 번째 열을 차지 */
+}
+
+#info-section {
+    grid-column: 2 / 3; /* 두 번째 열을 차지 */
+}
+
+#coursedetail-hr, #review-section { /* 구분선과 후기 섹션 */
+    grid-column: 1 / -1; /* 1번 열부터 마지막(-1) 열까지 전체를 차지 */
+}
+
+
+
+
+
+
 
 /* 후기(댓글) 영역 */
 .review-item {
@@ -127,3 +180,9 @@
 	font-size: 15px;
 	color: #444;
 }
+
+
+
+
+
+
