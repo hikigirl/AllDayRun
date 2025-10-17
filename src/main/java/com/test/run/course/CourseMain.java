@@ -54,20 +54,41 @@ public class CourseMain extends HttpServlet {
 				
 				Map<String, String> userLocationMap = dao.getUserLocation(accountId);
 				List<CourseCardDTO> recommendedList = null;
+				System.out.println("[DEBUG] Logged-in user: userLocationMap" + userLocationMap.get("county") + ", " + userLocationMap.get("district"));
 				
 				if(userLocationMap != null && !userLocationMap.isEmpty()) {
 					System.out.println("[DEBUG] Logged-in user (" + accountId + "). Getting recommended courses.");
-					String regionToSearch = userLocationMap.get("regionCounty");
-					recommendedList = dao.getRecommendedCourses(regionToSearch, 3);					
+					String county = userLocationMap.get("county");
+					String district = userLocationMap.get("district");
+					
+					String processedCounty = null;
+			        if (county != null) {
+			            processedCounty = county.replace("구", ""); // "강남구" -> "강남"
+			        }
+			        
+			        String processedDistrict = null;
+			        if (district != null) {
+			            processedDistrict = district.replace("동", ""); // "역삼동" -> "역삼"
+			        }
+			        
+			        System.out.println("[DEBUG] Searching recommendations for: " + processedCounty + ", " + processedDistrict);
+			     // ✅ [핵심 수정 2] DAO에 손질된 두 개의 키워드를 모두 전달
+			        recommendedList = dao.getRecommendedCourses(processedCounty, processedDistrict, 3);					
 				}
+				System.out.println("[DEBUG] Logged-in user: popularList" + popularList);
+				System.out.println("[DEBUG] Logged-in user: recommendedList" + recommendedList);
 				// 3. JSP에 별도의 이름으로 전달
+				
 	            req.setAttribute("popularList", popularList);
 	            req.setAttribute("recommendedList", recommendedList);
-				
+	            
+	            
+	            
 			} else {
                 // 비로그인 사용자: 인기순 코스 조회
-                System.out.println("[DEBUG] Guest user. Getting popular courses.");
                 List<CourseCardDTO> popularList = dao.getPopularCourses(6);
+                System.out.println("[DEBUG] Guest user. Getting popular courses." + popularList);
+                
                 req.setAttribute("popularList", popularList);
             }
 			

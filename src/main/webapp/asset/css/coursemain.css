@@ -53,6 +53,10 @@
     margin-bottom: 20px;
 } */
 
+#message-locationcourse {
+	margin-top: 30px;
+}
+
 /* 모든 .message 요소에 공통적으로 적용될 기본 스타일 */
 .message {
     padding: 10px 0; /* 위아래 약간의 여백 */

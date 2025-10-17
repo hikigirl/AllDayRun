@@ -113,8 +113,13 @@
 					</c:if> <!-- c:if test="${not empty popularList}" -->
 					
 					<!-- 추천 코스 목록 (로그인 사용자 전용) -->
+<<<<<<< HEAD
         			<c:if test="${not empty sessionScope.accountId and not empty recommendedList}">
+					<div id="message-locationcourse" class="message title">📍회원님을 위한 지역 기반 추천 코스</div>
+=======
+        			<c:if test="${not empty sessionScope.loginUserEmail and not empty recommendedList}">
 					<div id="message" class="message title">📍회원님을 위한 지역 기반 추천 코스</div>
+>>>>>>> parent of 1a8a729 (코스 상세보기 페이지, 코스 전체보기+검색 페이지 마무리)
 					<div class="course-grid">
 						<c:forEach var="course" items="${recommendedList}">
 						
