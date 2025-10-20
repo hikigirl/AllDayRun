@@ -16,6 +16,7 @@ body {
 	color: #222;
 	margin: 0;
 }
+
 .main-content {
 	flex: 1;
 	padding: 50px;

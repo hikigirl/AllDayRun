@@ -15,6 +15,7 @@
 				href="${pageContext.request.contextPath}/index.do"> AllDayRun </a>
 			</c:if>
 		</div>
+		
 		<c:choose>
 			<%-- 로그인 했을시 --%>
 			<%-- <c:when test="${not empty sessionScope.id}"> --%>

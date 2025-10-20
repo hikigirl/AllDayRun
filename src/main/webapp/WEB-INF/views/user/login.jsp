@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
 <style>
+	
 .login-wrapper {
     display: flex;
     justify-content: center;

@@ -25,6 +25,7 @@
 	border-radius: 8px; /* Added curvature */
 }
 
+
 .crew-banner-image img {
 	width: 100%;
 	height: 100%;

@@ -38,7 +38,6 @@
                         
                         <div id="action-buttons">
                             <%-- 로그인 상태일 때만 즐겨찾기 버튼 표시 --%>
-<<<<<<< HEAD
                             <c:if test="${not empty sessionScope.accountId}">
                                 <button type="button" class="action-btn" id="btn-favorite">즐겨찾기 추가</button>
                             </c:if>
@@ -46,15 +45,6 @@
                             <%-- 본인이 등록한 코스일 때만 삭제 요청 버튼 표시 --%>
                             <c:if test="${sessionScope.accountId == course.accountId}">
                                 <button type="button" class="action-btn" id="btn-delete">삭제하기</button>
-=======
-                            <c:if test="${not empty sessionScope.loginUserEmail}">
-                                <button type="button" class="action-btn" id="btn-favorite">⭐ 즐겨찾기 추가</button>
-                            </c:if>
-
-                            <%-- 본인이 등록한 코스일 때만 삭제 요청 버튼 표시 --%>
-                            <c:if test="${sessionScope.loginUserEmail == course.accountId}">
-                                <button type="button" class="action-btn" id="btn-delete">🗑️ 삭제 요청</button>
->>>>>>> parent of 1a8a729 (코스 상세보기 페이지, 코스 전체보기+검색 페이지 마무리)
                             </c:if>
                         </div>
                     </div>

@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
 <style>
+
 	:root{--text:#222;--muted:#666;--line:#e5e7eb;--primary:#4e86ff;--primary-weak:#edf2ff;--ok:#188038;--danger:#d93025;--radius:14px;--r:12px;}
 	*{box-sizing:border-box}
 	.page{max-width:720px;margin:30px auto;padding:0 18px}
@@ -55,7 +56,7 @@
 	    width:100%;padding:10px;border:1px solid #ddd;border-radius:10px
 	    
 	/* 운동 목적 칩 정렬 */
-	.choice-row{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;}
+	.choice-row {display:flex;flex-wrap:wrap; gap:10px 12px; align-items:center;}
 	.chip{display:inline-flex;align-items:center;gap:8px;line-height:1;}
 	
 	/* 체크박스 수직보정(브라우저 기본 라인박스 오프셋 제거) */

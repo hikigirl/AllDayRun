@@ -17,6 +17,7 @@
 			text-align: center;
 			color: #444;
 		}
+		
 		.spinner {
 			width: 60px;
 			height: 60px;

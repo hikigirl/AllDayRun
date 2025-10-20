@@ -16,6 +16,7 @@
 	gap: 30px;
 }
 
+
 .crew-section {
 	padding: 20px;
 	border-radius: 8px;

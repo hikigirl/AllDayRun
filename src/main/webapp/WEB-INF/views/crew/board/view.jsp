@@ -18,6 +18,7 @@
     animation: fadeIn 0.5s ease-in-out;
 }
 
+
 .main-content .view-header {
     border-bottom: 2px solid #e0e4f7;
     padding-bottom: 15px;
