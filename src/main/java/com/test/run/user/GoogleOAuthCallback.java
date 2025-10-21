@@ -11,19 +11,44 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+/**
+ * Google OAuth2 인증 후 콜백을 처리하는 서블릿
+ * Google로부터 받은 인증 코드를 사용하여 액세스 토큰을 교환하고,
+ * 이 토큰으로 사용자 정보를 가져와 세션에 저장한 후 회원가입 2단계 페이지로 리다이렉트한다.
+ */
 @WebServlet("/user/googleoauthcallback.do")
 public class GoogleOAuthCallback extends HttpServlet {
 
-    private static final String CLIENT_ID = "클라이언트 ID";
-    private static final String CLIENT_SECRET = "클라이언트 시크릿"; // 클라이언트 시크릿 입력
+    private static final String CLIENT_ID = "클라이언트 ID"; // TODO 클라이언트 ID 입력 필요
+    private static final String CLIENT_SECRET = "클라이언트 시크릿"; // TODO 클라이언트 시크릿 입력 필요
     private static final String REDIRECT_URI = "http://localhost:8080/user/googleoauthcallback.do";
-    
+
+    /**
+     * POST 요청을 GET 요청으로 위임
+     * 
+     * @param req  HttpServletRequest 객체
+     * @param resp HttpServletResponse 객체
+     * @throws ServletException 서블릿 관련 오류가 발생한 경우
+     * @throws IOException      I/O 오류가 발생한 경우
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         doGet(req, resp);
     }
-     
+
+    /**
+     * Google OAuth2 인증 후 콜백 요청을 처리한다.
+     * 1. Google로부터 받은 인증 코드를 사용하여 액세스 토큰을 요청
+     * 2. 액세스 토큰으로 Google 사용자 정보를 요청
+     * 3. 가져온 사용자 정보(이메일, 이름, 프로필 사진)를 세션에 저장
+     * 4. 회원가입 2단계 페이지로 리다이렉트
+     * 
+     * @param req  HttpServletRequest 객체
+     * @param resp HttpServletResponse 객체
+     * @throws ServletException 서블릿 관련 오류가 발생한 경우
+     * @throws IOException      I/O 오류가 발생한 경우
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
