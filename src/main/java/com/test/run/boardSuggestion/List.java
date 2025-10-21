@@ -15,7 +15,7 @@ import com.test.run.boardSuggestion.model.BoardDAO;
 import com.test.run.boardSuggestion.model.BoardDTO;
 
 /**
- * 게시글 목록을 조회하여 반환하는 서블릿입니다.
+ * 게시글 목록을 조회하여 반환하는 서블릿
  * GET 요청 시 모든 게시글 목록을 데이터베이스에서 가져와 JSP 페이지로 전달
  */
 @WebServlet(value = "/boardsuggestion/list.do")

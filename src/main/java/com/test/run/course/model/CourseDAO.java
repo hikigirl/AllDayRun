@@ -479,7 +479,7 @@ public class CourseDAO {
 	 * 
 	 * @param county    사용자의 주소 중 '시군구'에 해당하는 정보
 	 * @param district  사용자의 주소 중 '읍면동'에 해당하는 정보
-	 * @param cardCount 조회할 코스 카드의 최대 개수입니다.
+	 * @param cardCount 조회할 코스 카드의 최대 개수
 	 * @return 주소 기반 추천 코스 카드 정보를 담은 {@code List<CourseCardDTO>} 객체 리스트를 반환
 	 */
 	public List<CourseCardDTO> getRecommendedCourses(String county, String district, int cardCount) {
@@ -541,7 +541,7 @@ public class CourseDAO {
 	 * 특정 코스의 상세 정보를 조회한다.
 	 * 코스의 기본 정보와 해당 코스에 포함된 모든 지점(Spot) 정보를 함께 반환
 	 * 
-	 * @param courseSeq 조회할 코스의 고유 시퀀스(ID)입니다.
+	 * @param courseSeq 조회할 코스의 고유 시퀀스(ID)
 	 * @return 코스 상세 정보를 담은 {@link CourseDetailDTO} 객체를 반환. 조회 실패 시 {@code null}을
 	 *         반환
 	 */
@@ -603,7 +603,7 @@ public class CourseDAO {
 
 	/**
 	 * 특정 코스번호에 연결된 모든 지점(Spot) 목록을 조회한다.
-	 * 지점은 {@code spotStep} 순서대로 정렬되어 반환됩니다.
+	 * 지점은 {@code spotStep} 순서대로 정렬되어 반환
 	 * 
 	 * @param courseSeq 지점을 조회할 코스의 기본키
 	 * @return 해당 코스에 속한 {@code List<SpotDTO>} 객체 리스트를 반환. 조회 실패 시 빈 리스트를 반환

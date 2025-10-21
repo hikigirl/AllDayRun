@@ -541,7 +541,7 @@ public class CrewDAO {
 	}
 
 	/**
-	 * 크루 가입 요청을 거절합니다.
+	 * 크루 가입 요청을 거절한다.
 	 * 
 	 * @param crewJoinSeq 거절할 가입 요청의 번호(Primary Key)
 	 * @return 업데이트된 행의 수 (성공 시 1, 실패 시 0) 반환

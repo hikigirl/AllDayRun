@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class EncodingFilter implements Filter {
 
 	/**
-	 * 필터 초기화 메서드입니다. 현재는 특별한 초기화 작업을 수행하지 않음.
+	 * 필터 초기화 메서드, 현재는 특별한 초기화 작업을 수행하지 않음.
 	 * 
 	 * @param filterConfig 필터 설정을 위한 FilterConfig 객체
 	 * @throws ServletException 서블릿 관련 오류가 발생한 경우

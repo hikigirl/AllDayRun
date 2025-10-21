@@ -6,14 +6,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 /**
- * 사용자 로그아웃 요청을 처리하는 서블릿입니다.
- * 현재 세션을 무효화하고 사용자를 메인 페이지로 리다이렉트하여 로그아웃을 완료합니다.
+ * 사용자 로그아웃 요청을 처리하는 서블릿
+ * 현재 세션을 무효화하고 사용자를 메인 페이지로 리다이렉트하여 로그아웃을 완료함
  */
 @WebServlet("/user/logout.do")
 public class Logout extends HttpServlet {
     /**
-     * 로그아웃 요청을 처리합니다.
-     * 현재 HTTP 세션을 무효화하고, 사용자를 애플리케이션의 메인 페이지로 리다이렉트합니다.
+     * 로그아웃 요청을 처리
+     * 현재 HTTP 세션을 무효화하고, 사용자를 애플리케이션의 메인 페이지로 리다이렉트
      * @param req HttpServletRequest 객체.
      * @param resp HttpServletResponse 객체.
      * @throws ServletException 서블릿 관련 오류가 발생한 경우.
