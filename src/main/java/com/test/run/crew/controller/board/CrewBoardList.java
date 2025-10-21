@@ -14,14 +14,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import com.test.run.crew.model.BoardDAO;
 import com.test.run.crew.model.BoardDTO;
 import com.test.run.crew.model.CrewDAO;
 
+/**
+ * 크루 게시판의 게시글 목록을 처리하는 서블릿
+ * 페이징 기능을 포함하여 게시글 목록을 조회하고, JSP로 전달한다.
+ */
 @WebServlet(value = "/crewboardlist.do")
 public class CrewBoardList extends HttpServlet {
 
+	/**
+	 * HTTP GET 요청을 처리한다.
+	 * 사용자가 속한 크루의 게시글 목록을 페이징하여 조회하고, list.jsp로 전달한다.
+	 * 
+	 * @param req  클라이언트의 HttpServletRequest
+	 * @param resp 서버의 HttpServletResponse
+	 * @throws ServletException 서블릿 처리 중 예외가 발생할 경우
+	 * @throws IOException      입출력 예외가 발생할 경우
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -39,7 +51,7 @@ public class CrewBoardList extends HttpServlet {
 		crewDao.close();
 
 		BoardDAO boardDao = new BoardDAO();
-		
+
 		try {
 			List<BoardDTO> list = new ArrayList<>();
 			String pagebar = "";
@@ -77,14 +89,16 @@ public class CrewBoardList extends HttpServlet {
 				if (n == 1) {
 					sbPagebar.append(String.format("<li class='disabled'><a href='#!'>&laquo;</a></li>"));
 				} else {
-					sbPagebar.append(String.format("<li><a href='/alldayrun/crewboardlist.do?page=%d'>&laquo;</a></li>", n - 1));
+					sbPagebar.append(
+							String.format("<li><a href='/alldayrun/crewboardlist.do?page=%d'>&laquo;</a></li>", n - 1));
 				}
 
 				while (!(loop > blockSize || n > totalPage)) {
 					if (n == nowPage) {
 						sbPagebar.append(String.format("<li class='active'><a href='#!'>%d</a></li>", n));
 					} else {
-						sbPagebar.append(String.format("<li><a href='/alldayrun/crewboardlist.do?page=%d'>%d</a></li>", n, n));
+						sbPagebar.append(
+								String.format("<li><a href='/alldayrun/crewboardlist.do?page=%d'>%d</a></li>", n, n));
 					}
 					loop++;
 					n++;
@@ -94,13 +108,13 @@ public class CrewBoardList extends HttpServlet {
 				if (n > totalPage) {
 					sbPagebar.append(String.format("<li class='disabled'><a href='#!'>&raquo;</a></li>"));
 				} else {
-					sbPagebar.append(String.format("<li><a href='/alldayrun/crewboardlist.do?page=%d'>&raquo;</a></li>", n));
+					sbPagebar.append(
+							String.format("<li><a href='/alldayrun/crewboardlist.do?page=%d'>&raquo;</a></li>", n));
 				}
 
 				sbPagebar.append("</ul></nav>");
 				pagebar = sbPagebar.toString();
-			}
-			else { // 사용자가 크루에 속해있지 않은 경우
+			} else { // 사용자가 크루에 속해있지 않은 경우
 				resp.setCharacterEncoding("UTF-8");
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter writer = resp.getWriter();
