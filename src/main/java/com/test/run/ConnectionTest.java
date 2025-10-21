@@ -14,9 +14,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
- 
+
+/**
+ * DBCP(Database Connection Pool) 연결을 테스트하기 위한 서블릿
+ * GET 요청 시 데이터베이스 연결을 수립하고 간단한 쿼리를 실행하여 연결 상태를 확인
+ */
 @WebServlet(value = "/connectiontest.do")
 public class ConnectionTest extends HttpServlet {
+	/**
+	 * GET 요청을 처리하여 데이터베이스 연결을 테스트
+	 * JNDI를 통해 DataSource를 얻어 Connection을 생성하고, 간단한 쿼리를 실행한 후 연결을 반환
+	 * @param req HttpServletRequest 객체
+	 * @param resp HttpServletResponse 객체
+	 * @throws ServletException 서블릿 예외 발생 시
+	 * @throws IOException 입출력 예외 발생 시
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//ConnectionTest.java
