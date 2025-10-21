@@ -8,11 +8,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TrackDTO {
-	//tblTrack
+	// tblTrack
 	private String trackSeq;
 	private String startSpotSeq;
 	private String endSpotSeq;
 	private String courseLength;
 	private String courseSeq;
-	
+
 }

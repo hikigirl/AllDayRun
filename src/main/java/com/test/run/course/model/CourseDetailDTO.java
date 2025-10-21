@@ -10,16 +10,16 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CourseDetailDTO {
-	private String courseSeq;
-	private String courseName;
-	private double totalDistance;
-	private int favoriteCount;
-	private String curator;
+    private String courseSeq;
+    private String courseName;
+    private double totalDistance;
+    private int favoriteCount;
+    private String curator;
     // 코스 기본 정보
     private String accountId;
 
     // 상세 정보 (List)
     private List<SpotDTO> spots;
-    //private List<ReviewDTO> reviews;
-	
+    // private List<ReviewDTO> reviews;
+
 }

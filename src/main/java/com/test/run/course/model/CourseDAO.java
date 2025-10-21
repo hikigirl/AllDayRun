@@ -14,23 +14,24 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
- * 코스 관련 데이터베이스 작업을 처리하는 DAO 클래스입니다.
+ * 코스 관련 데이터베이스 작업을 처리하는 DAO 클래스
  * 데이터베이스 연결 및 코스 정보(등록, 조회, 수정 등) 관리를 담당
  */
 public class CourseDAO {
 
 	private Connection conn;
-//	전역 변수가 아니라 개별 메서드에서 새로 선언하는게 더 안정적
-//	private Statement stat;
-//	private PreparedStatement pstat;
-//	private ResultSet rs;
+	// 전역 변수가 아니라 개별 메서드에서 새로 선언하는게 더 안정적
+	// private Statement stat;
+	// private PreparedStatement pstat;
+	// private ResultSet rs;
 
-	    /**
-	     * CourseDAO의 생성자
-	     * 데이터베이스 커넥션 풀(jdbc/pool)을 통해 데이터베이스 연결을 설정
-	     * 연결 중 오류 발생 시 스택 트레이스를 출력
-	     */
-	    public CourseDAO() {		try {
+	/**
+	 * CourseDAO의 생성자
+	 * 데이터베이스 커넥션 풀(jdbc/pool)을 통해 데이터베이스 연결을 설정
+	 * 연결 중 오류 발생 시 스택 트레이스를 출력
+	 */
+	public CourseDAO() {
+		try {
 			Context ctx = new InitialContext();
 			Context env = (Context) ctx.lookup("java:comp/env");
 			DataSource ds = (DataSource) env.lookup("jdbc/pool");
@@ -44,11 +45,12 @@ public class CourseDAO {
 	}
 
 	// 자원 닫기
-	    /**
-	     * 데이터베이스 연결 자원을 닫는다.
-	     * 연결 종료 중 오류 발생 시 스택 트레이스를 출력
-	     */
-	    public void close() {		try {
+	/**
+	 * 데이터베이스 연결 자원을 닫는다.
+	 * 연결 종료 중 오류 발생 시 스택 트레이스를 출력
+	 */
+	public void close() {
+		try {
 			if (this.conn != null)
 				this.conn.close();
 		} catch (Exception e) {
@@ -59,17 +61,18 @@ public class CourseDAO {
 	}
 
 	// 관리자 페이지에서 사용 예정인 메서드 2가지 추가 필요
-//	adminGetPendingCourses() 	- '대기' 상태인 코스 목록을 조회(select) 
-//	adminUpdatePendingCourses() - 코스의 '대기' 상태를 '승인'으로 업데이트
+	// adminGetPendingCourses() - '대기' 상태인 코스 목록을 조회(select)
+	// adminUpdatePendingCourses() - 코스의 '대기' 상태를 '승인'으로 업데이트
 
-	    /**
-	     * 관리자 페이지에서 승인 대기 중인 코스 목록을 조회한다.
-	     * 모든 코스를 courseSeq의 내림차순으로 정렬하여 반환
-	     * 
-	     * @return 승인 대기 중인 코스 목록을 담은 {@code List<CourseDTO>}, 조회 실패 시 {@code null} 반환.
-	     */
-	    public List<CourseDTO> adminGetPendingCourses() {		Statement stat;
-		//PreparedStatement pstat = null;
+	/**
+	 * 관리자 페이지에서 승인 대기 중인 코스 목록을 조회한다.
+	 * 모든 코스를 courseSeq의 내림차순으로 정렬하여 반환
+	 * 
+	 * @return 승인 대기 중인 코스 목록을 담은 {@code List<CourseDTO>}, 조회 실패 시 {@code null} 반환.
+	 */
+	public List<CourseDTO> adminGetPendingCourses() {
+		Statement stat;
+		// PreparedStatement pstat = null;
 		ResultSet rs = null;
 		// queryNoParamListReturn
 		try {
@@ -102,15 +105,17 @@ public class CourseDAO {
 		return null;
 	}
 
-	    /**
-	     * 관리자 페이지에서 코스의 승인 상태를 업데이트
-	     * 
-	     * @param dto 업데이트할 코스 정보를 담고 있는 {@link CourseDTO} 객체 (주로 courseApproval 상태를 포함).
-	     * @return 업데이트된 레코드 수. 성공 시 1, 실패 시 0.
-	     */
-	    public int adminUpdatePendingCourses(CourseDTO dto) {		//Statement stat;
+	/**
+	 * 관리자 페이지에서 코스의 승인 상태를 업데이트
+	 * 
+	 * @param dto 업데이트할 코스 정보를 담고 있는 {@link CourseDTO} 객체 (주로 courseApproval 상태를
+	 *            포함).
+	 * @return 업데이트된 레코드 수. 성공 시 1, 실패 시 0.
+	 */
+	public int adminUpdatePendingCourses(CourseDTO dto) {
+		// Statement stat;
 		PreparedStatement pstat = null;
-		//ResultSet rs = null;
+		// ResultSet rs = null;
 		// queryParamNoReturn
 		try {
 			String sql = "update tblCourse set courseApproval = ?";
@@ -126,52 +131,56 @@ public class CourseDAO {
 
 		return 0;
 	}
-	
-	     /**
-	      * 승인 대기 중인 코스의 총 개수를 반환
-	      * 
-	      * @return 승인 대기 중인 코스의 개수.
-	      */
-	     public int getPendingCount() {			PreparedStatement pstat = null;
-			ResultSet rs = null ;
-		 
-	        int result = 0;
-	        try {
-	            String sql = "SELECT COUNT(*) AS cnt FROM tblCourse WHERE courseApproval = '대기'";
-	            pstat = conn.prepareStatement(sql);
-	            rs = pstat.executeQuery();
 
-	            if (rs.next()) {
-	                result = rs.getInt("cnt");
-	            }
+	/**
+	 * 승인 대기 중인 코스의 총 개수를 반환
+	 * 
+	 * @return 승인 대기 중인 코스의 개수.
+	 */
+	public int getPendingCount() {
+		PreparedStatement pstat = null;
+		ResultSet rs = null;
 
-	        } catch (Exception e) {
-	            System.out.println("CourseDAO.getPendingCount() : " + e.toString());
-	        } finally {
-	            try {
-	                rs.close();
-	                pstat.close();
-	                //conn.close();
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
-	        return result;
+		int result = 0;
+		try {
+			String sql = "SELECT COUNT(*) AS cnt FROM tblCourse WHERE courseApproval = '대기'";
+			pstat = conn.prepareStatement(sql);
+			rs = pstat.executeQuery();
+
+			if (rs.next()) {
+				result = rs.getInt("cnt");
+			}
+
+		} catch (Exception e) {
+			System.out.println("CourseDAO.getPendingCount() : " + e.toString());
+		} finally {
+			try {
+				rs.close();
+				pstat.close();
+				// conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
-// 선민 -------------------------------------------------------------------------------------------
+	// 선민
+	// -------------------------------------------------------------------------------------------
 	// courseRegister.do에서 호출
-	    /**
-	     * 새로운 코스, 해당 코스의 모든 지점(Spot), 그리고 지점 간의 경로(Track)를 데이터베이스에 추가하는 트랜잭션 메서드
-	     * ACID 속성을 보장하기 위해 단일 트랜잭션으로 처리
-		 * 테이블 3곳에 순차적으로 insert하고 하나라도 실패 시 롤백
-	     * 
-	     * @param courseName 새로 추가할 코스의 이름.
-	     * @param accountId 코스를 등록하는 사용자의 ID
-	     * @param spots 코스에 포함될 지점(Spot)들의 리스트. 각 SpotDTO는 장소, 위도, 경도, 순서 정보를 포함해야 한다.
-	     * @return 모든 작업이 성공적으로 완료되면 1을 반환하고, 실패하거나 롤백되면 0을 반환
-	     */
-	    public int addCourseTransaction(String courseName, String accountId, List<SpotDTO> spots) {		// 모든 리소스 변수를 지역 변수로 선언하고 사용(finally에서 닫으려면 여기서 선언해야함)
+	/**
+	 * 새로운 코스, 해당 코스의 모든 지점(Spot), 그리고 지점 간의 경로(Track)를 데이터베이스에 insert하는 트랜잭션 메서드
+	 * ACID 속성을 보장하기 위해 단일 트랜잭션으로 처리
+	 * 테이블 3곳에 순차적으로 insert하고 하나라도 실패 시 롤백
+	 * 
+	 * @param courseName 새로 추가할 코스의 이름.
+	 * @param accountId  코스를 등록하는 사용자의 ID
+	 * @param spots      코스에 포함될 지점(Spot)들의 리스트. 각 SpotDTO는 장소, 위도, 경도, 순서 정보를 포함해야
+	 *                   한다.
+	 * @return 모든 작업이 성공적으로 완료되면 1을 반환하고, 실패하거나 롤백되면 0을 반환
+	 */
+	public int addCourseTransaction(String courseName, String accountId, List<SpotDTO> spots) {
+		// 모든 리소스 변수를 지역 변수로 선언하고 사용(finally에서 닫으려면 여기서 선언해야함)
 		PreparedStatement pstatCourse = null;
 		PreparedStatement pstatSpot = null;
 		PreparedStatement pstatTrack = null;
@@ -302,72 +311,73 @@ public class CourseDAO {
 	}
 
 	// coursemain.do에서 호출하였음
-	    /**
-	     * 주어진 키워드를 포함하는 승인된 코스 목록을 조회한다.
-	     * 검색 결과는 스크랩 수(favoriteCount)와 코스 번호(courseSeq, PK)에 따라 정렬된다.
-	     * 
-	     * @param keyword 검색할 키워드
-	     * @return 검색 결과에 해당하는 {@code List<CourseCardDTO>} 객체 리스트를 반환.
-	     */
-	    public List<CourseCardDTO> searchCourses(String keyword) {		
-			List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
-			PreparedStatement pstat = null;
-			ResultSet rs = null;
-			try {
+	/**
+	 * 주어진 키워드를 포함하는 승인된 코스 목록을 조회한다.
+	 * 검색 결과는 스크랩 수(favoriteCount)와 코스 번호(courseSeq, PK)에 따라 정렬된다.
+	 * 
+	 * @param keyword 검색할 키워드
+	 * @return 검색 결과에 해당하는 {@code List<CourseCardDTO>} 객체 리스트를 반환.
+	 */
+	public List<CourseCardDTO> searchCourses(String keyword) {
+		List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
+		PreparedStatement pstat = null;
+		ResultSet rs = null;
+		try {
 
-				String sql = "SELECT * FROM vwCourseCards WHERE courseName LIKE ? ORDER BY favoriteCount DESC, courseSeq DESC";
+			String sql = "SELECT * FROM vwCourseCards WHERE courseName LIKE ? ORDER BY favoriteCount DESC, courseSeq DESC";
 
-				pstat = conn.prepareStatement(sql);
-				pstat.setString(1, "%" + keyword + "%");
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, "%" + keyword + "%");
 
-				rs = pstat.executeQuery();
+			rs = pstat.executeQuery();
 
-				while (rs.next()) {
+			while (rs.next()) {
 
-					CourseCardDTO dto = new CourseCardDTO();
+				CourseCardDTO dto = new CourseCardDTO();
 
-					dto.setCourseSeq(rs.getString("courseSeq"));
-					dto.setCourseName(rs.getString("courseName"));
-					dto.setTotalDistance(rs.getDouble("totalDistance"));
-					dto.setFavoriteCount(rs.getInt("favoriteCount"));
-					dto.setCurator(rs.getString("curator"));
-					dto.setAccountId(rs.getString("accountId"));
+				dto.setCourseSeq(rs.getString("courseSeq"));
+				dto.setCourseName(rs.getString("courseName"));
+				dto.setTotalDistance(rs.getDouble("totalDistance"));
+				dto.setFavoriteCount(rs.getInt("favoriteCount"));
+				dto.setCurator(rs.getString("curator"));
+				dto.setAccountId(rs.getString("accountId"));
 
-					list.add(dto);
-				}
-
-				return list;
-
-			} catch (Exception e) {
-				System.out.println("CourseDAO.searchCourses failed");
-				e.printStackTrace();
-			} finally {
-				// 자원 반납
-				try {
-					if (rs != null)
-						rs.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				try {
-					if (pstat != null)
-						pstat.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				list.add(dto);
 			}
+
 			return list;
+
+		} catch (Exception e) {
+			System.out.println("CourseDAO.searchCourses failed");
+			e.printStackTrace();
+		} finally {
+			// 자원 반납
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (pstat != null)
+					pstat.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		return list;
+	}
 
 	// coursemain.do에서 호출하였음
-	    /**
-	     * 스크랩 수(favoriteCount) 기준으로 정렬된 인기 코스 목록을 조회한다.
-	     * 지정된 {@code cardCount}만큼의 코스만 반환한다.
-	     * 
-	     * @param cardCount 조회할 코스 카드의 최대 개수
-	     * @return 인기 코스 카드 정보를 담은 {@code List<CourseCardDTO>} 객체 리스트를 반환한다.
-	     */
-	    public List<CourseCardDTO> getPopularCourses(int cardCount) {		List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
+	/**
+	 * 스크랩 수(favoriteCount) 기준으로 정렬된 인기 코스 목록을 조회한다.
+	 * 지정된 {@code cardCount}만큼의 코스만 반환한다.
+	 * 
+	 * @param cardCount 조회할 코스 카드의 최대 개수
+	 * @return 인기 코스 카드 정보를 담은 {@code List<CourseCardDTO>} 객체 리스트를 반환한다.
+	 */
+	public List<CourseCardDTO> getPopularCourses(int cardCount) {
+		List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
 		PreparedStatement pstat = null;
 		ResultSet rs = null;
 		try {
@@ -414,13 +424,15 @@ public class CourseDAO {
 	}
 
 	// coursemain.do에서 호출하였음
-	    /**
-	     * 사용자 계정 ID를 기반으로 개인 상세 정보 테이블에서 사용자 주소 정보를 조회한다.
-	     * 
-	     * @param accountId 사용자 ID(이메일)
-	     * @return 사용자의 주소 정보를 담은 {@code Map<String, String>}을 반환한다. 조회 실패 시 {@code null}을 반환
-	     */
-	    public Map<String, String> getUserLocation(String accountId) {		Map<String, String> locationMap = null;
+	/**
+	 * 사용자 계정 ID를 기반으로 개인 상세 정보 테이블에서 사용자 주소 정보를 조회한다.
+	 * 
+	 * @param accountId 사용자 ID(이메일)
+	 * @return 사용자의 주소 정보를 담은 {@code Map<String, String>}을 반환한다. 조회 실패 시
+	 *         {@code null}을 반환
+	 */
+	public Map<String, String> getUserLocation(String accountId) {
+		Map<String, String> locationMap = null;
 		PreparedStatement pstat = null;
 		ResultSet rs = null;
 		try {
@@ -461,73 +473,80 @@ public class CourseDAO {
 	}
 
 	// coursemain.do에서 호출하였음
-	    /**
-	     * 사용자의 주소(광역시/도, 시군구)를 기반으로 추천 코스 목록을 조회
-	     * 조회된 코스는 스크랩 수(favoriteCount) 기준으로 정렬되며, 지정된 {@code cardCount}만큼 반환
-	     * 
-	     * @param county 사용자의 주소 중 '광역시/도'에 해당하는 정보입니다.
-	     * @param district 사용자의 주소 중 '시/군/구'에 해당하는 정보입니다.
-	     * @param cardCount 조회할 코스 카드의 최대 개수입니다.
-	     * @return 주소 기반 추천 코스 카드 정보를 담은 {@code List<CourseCardDTO>} 객체 리스트를 반환합니다.
-	     */
-	    public List<CourseCardDTO> getRecommendedCourses(String county, String district, int cardCount) {		
-			List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
-			PreparedStatement pstat = null;
-			ResultSet rs = null;
-			try {
-				System.out.println("[DEBUG] CourseDAO.getRecommendedCourses() county: " + county + ", district: " + district);
-				
-				//String sql = "SELECT * FROM (SELECT v.* FROM vwCourseCards v INNER JOIN tblSpot s ON v.courseSeq = s.courseSeq WHERE s.place LIKE ? GROUP BY v.courseSeq, v.courseName, v.totalDistance, v.favoriteCount, v.curator, v.accountId ORDER BY v.favoriteCount DESC) WHERE ROWNUM <= ?";
-				String sql = "SELECT * FROM (SELECT v.* FROM vwCourseCards v INNER JOIN tblSpot s ON v.courseSeq = s.courseSeq WHERE (s.place LIKE ? OR s.place LIKE ?) GROUP BY v.courseSeq, v.courseName, v.totalDistance, v.FAVORITECOUNT, v.curator, v.accountId ORDER BY v.FAVORITECOUNT DESC) WHERE ROWNUM <= ?";
-				pstat = conn.prepareStatement(sql);
-				
-				pstat.setString(1, "%" + county + "%");
-				pstat.setString(2, "%" + district + "%");
-				pstat.setInt(3, cardCount); // limit의 인덱스가 2에서 3으로 변경됨
-				rs = pstat.executeQuery();
+	/**
+	 * 사용자의 주소(시군구, 읍면동)를 기반으로 추천 코스 목록을 조회
+	 * 조회된 코스는 스크랩 수(favoriteCount) 기준으로 정렬되며, 지정된 {@code cardCount}만큼 반환
+	 * 
+	 * @param county    사용자의 주소 중 '시군구'에 해당하는 정보
+	 * @param district  사용자의 주소 중 '읍면동'에 해당하는 정보
+	 * @param cardCount 조회할 코스 카드의 최대 개수입니다.
+	 * @return 주소 기반 추천 코스 카드 정보를 담은 {@code List<CourseCardDTO>} 객체 리스트를 반환
+	 */
+	public List<CourseCardDTO> getRecommendedCourses(String county, String district, int cardCount) {
+		List<CourseCardDTO> list = new ArrayList<CourseCardDTO>();
+		PreparedStatement pstat = null;
+		ResultSet rs = null;
+		try {
+			System.out
+					.println("[DEBUG] CourseDAO.getRecommendedCourses() county: " + county + ", district: " + district);
 
-				while (rs.next()) {
+			// String sql = "SELECT * FROM (SELECT v.* FROM vwCourseCards v INNER JOIN
+			// tblSpot s ON v.courseSeq = s.courseSeq WHERE s.place LIKE ? GROUP BY
+			// v.courseSeq, v.courseName, v.totalDistance, v.favoriteCount, v.curator,
+			// v.accountId ORDER BY v.favoriteCount DESC) WHERE ROWNUM <= ?";
+			String sql = "SELECT * FROM (SELECT v.* FROM vwCourseCards v INNER JOIN tblSpot s ON v.courseSeq = s.courseSeq WHERE (s.place LIKE ? OR s.place LIKE ?) GROUP BY v.courseSeq, v.courseName, v.totalDistance, v.FAVORITECOUNT, v.curator, v.accountId ORDER BY v.FAVORITECOUNT DESC) WHERE ROWNUM <= ?";
+			pstat = conn.prepareStatement(sql);
 
-					CourseCardDTO dto = new CourseCardDTO();
+			pstat.setString(1, "%" + county + "%");
+			pstat.setString(2, "%" + district + "%");
+			pstat.setInt(3, cardCount); // limit의 인덱스가 2에서 3으로 변경됨
+			rs = pstat.executeQuery();
 
-					dto.setCourseSeq(rs.getString("courseSeq"));
-					dto.setCourseName(rs.getString("courseName"));
-					dto.setTotalDistance(rs.getDouble("totalDistance"));
-					dto.setFavoriteCount(rs.getInt("favoriteCount"));
-					dto.setCurator(rs.getString("curator"));
-					dto.setAccountId(rs.getString("accountId"));
+			while (rs.next()) {
 
-					list.add(dto);
-				}
-			} catch (Exception e) {
-				System.out.println("CourseDAO.getRecommendedCourses failed");
-				e.printStackTrace();
-			} finally {
-				// DB 자원을 반드시 반납합니다.
-				try {
-					if (rs != null)
-						rs.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				try {
-					if (pstat != null)
-						pstat.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				CourseCardDTO dto = new CourseCardDTO();
+
+				dto.setCourseSeq(rs.getString("courseSeq"));
+				dto.setCourseName(rs.getString("courseName"));
+				dto.setTotalDistance(rs.getDouble("totalDistance"));
+				dto.setFavoriteCount(rs.getInt("favoriteCount"));
+				dto.setCurator(rs.getString("curator"));
+				dto.setAccountId(rs.getString("accountId"));
+
+				list.add(dto);
 			}
-
-			return list;
+		} catch (Exception e) {
+			System.out.println("CourseDAO.getRecommendedCourses failed");
+			e.printStackTrace();
+		} finally {
+			// DB 자원을 반드시 반납합니다.
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (pstat != null)
+					pstat.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
-	    /**
-	     * 특정 코스의 상세 정보를 조회합니다. 코스의 기본 정보와 해당 코스에 포함된 모든 지점(Spot) 정보를 함께 반환합니다.
-	     * 
-	     * @param courseSeq 조회할 코스의 고유 시퀀스(ID)입니다.
-	     * @return 코스 상세 정보를 담은 {@link CourseDetailDTO} 객체를 반환합니다. 조회 실패 시 {@code null}을 반환합니다.
-	     */
-	    public CourseDetailDTO getCourseDetails(String courseSeq) {		CourseDetailDTO courseDetail = null;
+		return list;
+	}
+
+	/**
+	 * 특정 코스의 상세 정보를 조회한다.
+	 * 코스의 기본 정보와 해당 코스에 포함된 모든 지점(Spot) 정보를 함께 반환
+	 * 
+	 * @param courseSeq 조회할 코스의 고유 시퀀스(ID)입니다.
+	 * @return 코스 상세 정보를 담은 {@link CourseDetailDTO} 객체를 반환. 조회 실패 시 {@code null}을
+	 *         반환
+	 */
+	public CourseDetailDTO getCourseDetails(String courseSeq) {
+		CourseDetailDTO courseDetail = null;
 		PreparedStatement pstat = null;
 		ResultSet rs = null;
 
@@ -582,19 +601,20 @@ public class CourseDAO {
 		return courseDetail; // 조회 실패 시 null 반환
 	}
 
-	    /**
-	     * 특정 코스 시퀀스(ID)에 연결된 모든 지점(Spot) 목록을 조회합니다.
-	     * 지점은 {@code spotStep} 순서대로 정렬되어 반환됩니다.
-	     * 
-	     * @param courseSeq 지점을 조회할 코스의 고유 시퀀스(ID)입니다.
-	     * @return 해당 코스에 속한 {@code List<SpotDTO>} 객체 리스트를 반환합니다. 조회 실패 시 빈 리스트를 반환할 수 있습니다.
-	     */
-	    public List<SpotDTO> getSpotsByCourseSeq(String courseSeq) {		List<SpotDTO> list = new ArrayList<>();
+	/**
+	 * 특정 코스번호에 연결된 모든 지점(Spot) 목록을 조회한다.
+	 * 지점은 {@code spotStep} 순서대로 정렬되어 반환됩니다.
+	 * 
+	 * @param courseSeq 지점을 조회할 코스의 기본키
+	 * @return 해당 코스에 속한 {@code List<SpotDTO>} 객체 리스트를 반환. 조회 실패 시 빈 리스트를 반환
+	 */
+	public List<SpotDTO> getSpotsByCourseSeq(String courseSeq) {
+		List<SpotDTO> list = new ArrayList<>();
 		PreparedStatement pstat = null;
 		ResultSet rs = null;
 
 		try {
-			// [핵심] spotStep 순서대로 정렬하여 경로 순서를 보장합니다.
+			// [핵심] spotStep 순서대로 정렬하여 경로 순서를 보장
 			String sql = "SELECT * FROM tblSpot WHERE courseSeq = ? ORDER BY spotStep ASC";
 
 			pstat = conn.prepareStatement(sql);
@@ -604,7 +624,7 @@ public class CourseDAO {
 			while (rs.next()) {
 				SpotDTO dto = new SpotDTO();
 
-				// DB 조회 결과를 SpotDTO 객체에 매핑합니다.
+				// DB 조회 결과를 SpotDTO 객체에 매핑
 				dto.setSpotSeq(rs.getString("spotSeq"));
 				dto.setPlace(rs.getString("place")); // 사용자가 입력한 별명
 				dto.setLat(rs.getString("lat"));
@@ -619,7 +639,7 @@ public class CourseDAO {
 			System.out.println("CourseDAO.getSpotsByCourseSeq 실패");
 			e.printStackTrace();
 		} finally {
-			// DB 자원을 반드시 반납합니다.
+			// DB 자원 반납
 			try {
 				if (rs != null)
 					rs.close();
@@ -637,12 +657,13 @@ public class CourseDAO {
 		return list;
 	}
 
-	    /**
-	     * 페이징 처리를 위해 현재 시스템에 등록된 모든 승인된 코스의 총 개수를 조회하여 반환합니다.
-	     * 
-	     * @return 승인된 코스의 총 개수입니다.
-	     */
-	    public int getTotalCourseCount() {		int count = 0;
+	/**
+	 * 페이징 처리를 위해 현재 시스템에 등록된 모든 승인된 코스의 총 개수를 조회하여 반환한다.
+	 * 
+	 * @return 승인된 코스의 총 개수
+	 */
+	public int getTotalCourseCount() {
+		int count = 0;
 		PreparedStatement pstat = null;
 		ResultSet rs = null;
 
@@ -674,15 +695,16 @@ public class CourseDAO {
 
 	}
 
-	    /**
-	     * 지정된 시작 및 끝 행 번호 범위에 해당하는 모든 코스 목록을 조회합니다.
-	     * 이 메서드는 주로 페이징 처리에 사용됩니다.
-	     * 
-	     * @param start 조회할 범위의 시작 행 번호입니다.
-	     * @param end 조회할 범위의 끝 행 번호입니다.
-	     * @return 해당 페이지에 표시될 {@code List<CourseCardDTO>} 객체 리스트를 반환합니다.
-	     */
-	    public List<CourseCardDTO> getAllCourses(int start, int end) {		List<CourseCardDTO> list = new ArrayList<>();
+	/**
+	 * 지정된 시작 및 끝 행 번호 범위에 해당하는 모든 코스 목록을 조회한다.
+	 * 페이징 처리에 사용
+	 * 
+	 * @param start 조회할 범위의 시작 행 번호
+	 * @param end   조회할 범위의 끝 행 번호
+	 * @return 해당 페이지에 표시될 {@code List<CourseCardDTO>} 객체 리스트를 반환
+	 */
+	public List<CourseCardDTO> getAllCourses(int start, int end) {
+		List<CourseCardDTO> list = new ArrayList<>();
 		PreparedStatement pstat = null;
 		ResultSet rs = null;
 

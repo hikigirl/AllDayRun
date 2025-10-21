@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SpotDTO {
-	//tblSpot
+	// tblSpot
 	private String spotSeq;
 	private String place;
 	private String lat;

@@ -8,13 +8,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CourseDTO {
-	
 
-	//tblCourse
+	// tblCourse
 	private String courseSeq;
 	private String courseName;
 	private String courseApproval;
 	private String accountId; // 사용자 ID (추가 필요)
-	
-	
+
 }
