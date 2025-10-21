@@ -54,7 +54,7 @@ public class BoardDAO {
 	/**
 	 * 게시글 등록
 	 * 
-	 * @param BoardDTO dto
+	 * @param dto
 	 * @return 성공시 1 반환, 실패시 0 반환
 	 */
 	public int add(BoardDTO dto) {
