@@ -11,7 +11,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
+ 
 public class MailSender {
 	
 	public void sendVerificationMail(Map<String,String> map) {

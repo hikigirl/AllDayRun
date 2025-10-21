@@ -10,6 +10,7 @@ import lombok.ToString;
 public class CourseDTO {
 	
 
+
 	//tblCourse
 	private String courseSeq;
 	private String courseName;

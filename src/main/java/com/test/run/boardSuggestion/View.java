@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.test.run.boardSuggestion.model.BoardDAO;
 import com.test.run.boardSuggestion.model.BoardDTO;
 
+
 @WebServlet(value = "/boardsuggestion/view.do")
 public class View extends HttpServlet {
 

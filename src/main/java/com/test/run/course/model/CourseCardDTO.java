@@ -15,5 +15,6 @@ public class CourseCardDTO {
 	private int favoriteCount;
 	private String curator;
 	
+	
 	private String accountId;
 }

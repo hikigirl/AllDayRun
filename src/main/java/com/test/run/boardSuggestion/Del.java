@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.test.run.boardSuggestion.model.BoardDAO;
 import com.test.run.boardSuggestion.model.BoardDTO;
 
+
 @WebServlet(value = "/boardsuggestion/del.do")
 public class Del extends HttpServlet {
 

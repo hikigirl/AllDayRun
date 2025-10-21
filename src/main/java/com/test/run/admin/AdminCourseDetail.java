@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.test.run.course.model.CourseDAO;
 import com.test.run.course.model.CourseDetailDTO;
 
+
 @WebServlet(value = "/admin/admincoursedetail.do")
 public class AdminCourseDetail extends HttpServlet {
 	@Override

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+ 
 /**
  * RegisterStep1
  * - 이메일 인증(코드 발송은 /user/sendmail.do에서 Ajax로 수행)

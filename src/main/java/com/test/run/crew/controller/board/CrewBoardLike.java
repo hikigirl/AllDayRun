@@ -13,6 +13,7 @@ import com.test.run.crew.model.BoardDAO;
 @WebServlet(value = "/crewboardlike.do")
 public class CrewBoardLike extends HttpServlet {
 
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.test.run.course.model.CourseCardDTO;
 import com.test.run.course.model.CourseDAO;
 
+
 @WebServlet(value = "/course/coursemain.do")
 public class CourseMain extends HttpServlet {
 	@Override

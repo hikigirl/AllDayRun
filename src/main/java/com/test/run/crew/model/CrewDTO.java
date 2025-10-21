@@ -19,4 +19,5 @@ public class CrewDTO {
 	private String distance;
 	private String nickname;
 
+
 }

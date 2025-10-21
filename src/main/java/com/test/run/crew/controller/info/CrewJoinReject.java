@@ -14,6 +14,7 @@ import com.test.run.crew.model.CrewDAO;
 @WebServlet(value = "/crewjoinreject.do")
 public class CrewJoinReject extends HttpServlet {
 
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

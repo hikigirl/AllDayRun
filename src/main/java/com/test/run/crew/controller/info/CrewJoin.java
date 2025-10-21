@@ -16,6 +16,7 @@ import com.test.run.crew.model.CrewDAO;
 @WebServlet(value = "/crewjoin.do")
 public class CrewJoin extends HttpServlet {
 
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

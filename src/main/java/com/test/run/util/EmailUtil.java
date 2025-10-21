@@ -4,7 +4,7 @@ import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
+ 
 public class EmailUtil {
     public static void sendVerificationCode(String smtpUser, String smtpPassword, String toEmail, String code) throws Exception {
         Properties props = new Properties();

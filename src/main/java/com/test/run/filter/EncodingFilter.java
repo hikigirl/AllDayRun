@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 //톰캣이 관리
 public class EncodingFilter implements Filter {
 	
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		//System.out.println("필터 생성");

@@ -16,3 +16,4 @@ public class SpotDTO {
 	private String courseSeq;
 	private int spotStep;
 }
+

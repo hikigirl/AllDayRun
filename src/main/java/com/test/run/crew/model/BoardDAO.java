@@ -18,6 +18,7 @@ public class BoardDAO {
 	public BoardDAO() {
 		conn = DBUtil.getConnection();
 
+
 	}
 
 	public List<BoardDTO> list(HashMap<String, String> map, String crewSeq) {

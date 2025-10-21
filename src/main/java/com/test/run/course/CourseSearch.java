@@ -15,6 +15,7 @@ public class CourseSearch extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//CourseSearch.java
 		
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/course/coursesearch.jsp");
 		dispatcher.forward(req, resp);
 	}

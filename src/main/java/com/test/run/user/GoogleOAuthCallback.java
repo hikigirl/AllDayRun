@@ -23,7 +23,7 @@ public class GoogleOAuthCallback extends HttpServlet {
             throws ServletException, IOException {
         doGet(req, resp);
     }
-    
+     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

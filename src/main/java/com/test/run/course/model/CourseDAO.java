@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 
 public class CourseDAO {
 
+
 	private Connection conn;
 //	전역 변수가 아니라 개별 메서드에서 새로 선언하는게 더 안정적
 //	private Statement stat;

@@ -16,5 +16,6 @@ public class BoardDTO {
 		private int favoriteCount;
 		private int boardContentTypeSeq;
 		private String nickname;
+
 		
 }

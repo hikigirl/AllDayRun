@@ -20,6 +20,7 @@ public class CommentDAO {
 		
 	}
 	
+	
 	public void close() {
 		try {
 			if (this.conn != null) {

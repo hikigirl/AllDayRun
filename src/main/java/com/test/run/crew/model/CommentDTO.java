@@ -13,4 +13,5 @@ public class CommentDTO {
 	private String regdate;
 	private String nickname;
 	
+	
 }

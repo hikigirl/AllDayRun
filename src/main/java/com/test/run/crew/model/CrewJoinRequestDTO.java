@@ -10,3 +10,4 @@ public class CrewJoinRequestDTO {
     private String requestState;
     private String nickname; // To display the requester's nickname
 }
+
