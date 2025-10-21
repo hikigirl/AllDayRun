@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <%@include file="/WEB-INF/views/inc/asset.jsp"%>
 <link rel="stylesheet" href="/alldayrun/asset/css/courseregister.css" />
- 
+
 </head>
 <body>
 	<div id="layout">

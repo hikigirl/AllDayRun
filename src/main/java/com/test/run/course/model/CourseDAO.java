@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 
 public class CourseDAO {
 
-
 	private Connection conn;
 //	전역 변수가 아니라 개별 메서드에서 새로 선언하는게 더 안정적
 //	private Statement stat;
@@ -485,7 +484,6 @@ public class CourseDAO {
 		return list;
 	}
 
-<<<<<<< HEAD
 	public CourseDetailDTO getCourseDetails(String courseSeq) {
 		CourseDetailDTO courseDetail = null;
 		PreparedStatement pstat = null;
@@ -678,14 +676,5 @@ public class CourseDAO {
 		}
 		return list;
 	}
-=======
-
-	
-	
-	
-	
-	
-	
->>>>>>> parent of 1a8a729 (코스 상세보기 페이지, 코스 전체보기+검색 페이지 마무리)
 
 }

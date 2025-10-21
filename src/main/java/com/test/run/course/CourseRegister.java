@@ -24,7 +24,6 @@ import com.test.run.course.model.CourseDAO;
 import com.test.run.course.model.CourseDTO;
 import com.test.run.course.model.SpotDTO;
 
-
 @WebServlet(value = "/course/courseregister.do")
 public class CourseRegister extends HttpServlet {
 	@Override
