@@ -12,14 +12,20 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 
-
+/**
+ * BoardDAO 클래스
+ * 게시판 관련 데이터베이스 작업 메서드 담은 클래스
+ */
 public class BoardDAO {
 
 	private Connection conn;
 	private Statement stat;
 	private PreparedStatement pstat;
 	private ResultSet rs;
-
+	
+	/**
+	 * BoardDAO() 생성자
+	 */
 	public BoardDAO() {
 		try {
 			Context ctx = new InitialContext();
@@ -33,6 +39,9 @@ public class BoardDAO {
 		}
 	}
 	
+	/**
+	 * Connection 닫기
+	 */
 	public void close() {
 		try {
 			this.conn.close();
@@ -43,7 +52,11 @@ public class BoardDAO {
 		}
 	}
 	
-	//게시글 등록
+	/**
+	 * 게시글 등록
+	 * @param BoardDTO dto
+	 * @return 성공시 1 반환, 실패시 0 반환
+	 */
 	public int add(BoardDTO dto) {
 		
 		//queryParamNoReturn
@@ -67,7 +80,10 @@ public class BoardDAO {
 		return 0;
 	}
 	
-	//게시판 리스트 출력
+	/**
+	 * 게시판 목록 출력
+	 * @return 게시글 목록을 담은 ArrayList 반환, 없을 시 null 반환
+	 */
 	public List<BoardDTO> list() {
 		
 		//queryNoParamListReturn
@@ -109,6 +125,11 @@ public class BoardDAO {
 	}
 
 	
+	/**
+	 * 특정 게시글을 조회한다.
+	 * @param boardContentSeq 조회할 게시글의 고유 번호
+	 * @return 조회된 게시글 정보를 담은 BoardDTO 객체. 해당하는 게시글이 없으면 null 반환.
+	 */
 	public BoardDTO get(String boardContentSeq) {
 		
 		//queryParamDTOReturn
@@ -144,6 +165,11 @@ public class BoardDAO {
 		return null;
 	}
 	
+	/**
+	 * 게시글을 수정한다.
+	 * @param dto 수정할 게시글 정보 (제목, 내용 포함)
+	 * @return 수정 성공시 1, 실패시 0 반환
+	 */
 	public int edit(BoardDTO dto) {
 		
 		//queryParamNoReturn
@@ -165,6 +191,11 @@ public class BoardDAO {
 		return 0;
 	}
 
+	/**
+	 * 게시글을 삭제한다.
+	 * @param boardContentSeq 삭제할 게시글의 고유 번호
+	 * @return 삭제 성공시 1, 실패시 0 반환
+	 */
 	public int del(String boardContentSeq) {
 
 		//queryParamNoReturn
