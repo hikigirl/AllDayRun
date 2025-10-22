@@ -2,6 +2,10 @@ package com.test.run.crew.model;
 
 import lombok.Data;
 
+/**
+ * 크루(tblCrew) 관련 DTO
+ * 크루 생성 기능에서 사용한다.
+ */
 @Data
 public class CrewDTO {
 	

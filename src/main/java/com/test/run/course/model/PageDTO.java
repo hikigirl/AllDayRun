@@ -3,6 +3,10 @@ package com.test.run.course.model;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * 페이지 계산에 필요한 DTO
+ * 코스 검색 기능에서 사용
+ */
 @Getter
 @ToString
 public class PageDTO {

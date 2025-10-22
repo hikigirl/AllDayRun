@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * 코스 상세 정보를 출력하기 위한 DTO
+ * 코스 상세보기 기능에서 사용
+ */
 @Getter
 @Setter
 @ToString

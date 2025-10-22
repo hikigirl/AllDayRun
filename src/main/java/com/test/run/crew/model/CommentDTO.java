@@ -2,6 +2,9 @@ package com.test.run.crew.model;
 
 import lombok.Data;
 
+/**
+ * 크루 전용 자유게시판 댓글 (tblCrewCommentGeneral) 관련 DTO
+ */
 @Data
 public class CommentDTO {
 

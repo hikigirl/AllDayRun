@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-
+/**
+ * 개인상세정보(tblAccountInfo) 관련 DTO
+ * 회원가입 기능에서 사용한다.
+ */
 @Getter
 @Setter
 @ToString
