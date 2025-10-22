@@ -6,7 +6,6 @@
 	<meta charset="UTF-8">
 	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
   <style>
-    
     :root{
       --primary:#4e86ff; --ok:#1a9b50; --text:#222; --muted:#6b7280;
       --line:#e5e7eb; --radius:16px;

@@ -6,7 +6,7 @@
   <%@include file="/WEB-INF/views/inc/asset.jsp"%> <!-- [설명 주석] 기존 에셋 include 유지 -->
 
   <title>러닝 메인</title>
- 
+
   <!-- 러닝 전용 CSS: 요청한 경로/파일명 유지 -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/runningmain.css">
 

@@ -19,7 +19,6 @@
     color: #333;
 }
 
-
 /* 폼 컨테이너 */
 .main-content .form-container {
     width: 100%;

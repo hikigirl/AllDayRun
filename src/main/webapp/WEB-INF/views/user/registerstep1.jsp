@@ -6,7 +6,6 @@
 	<meta charset="UTF-8">
 	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
 <style>
-	
 :root{--text:#222;--muted:#666;--line:#e5e7eb;--primary:#4e86ff;--primary-weak:#edf2ff;--ok:#188038;--danger:#d93025;--radius:14px;--r:12px;}
 *{box-sizing:border-box}
 .page{max-width:720px;margin:30px auto;padding:0 18px}

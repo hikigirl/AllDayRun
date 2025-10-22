@@ -22,7 +22,6 @@
 	margin-bottom: 20px;
 }
 
-
 .form-group label {
 	display: block;
 	font-weight: bold;

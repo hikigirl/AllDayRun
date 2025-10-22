@@ -20,7 +20,6 @@
 	color: #333;
 }
 
-
 /* 테이블 스타일 */
 .main-content .table {
 	width: 100%;
@@ -143,7 +142,7 @@
 }
 
 /* 애니메이션 */
-
+@
 keyframes fadeIn {from { opacity:0;
 	transform: translateY(20px);
 }

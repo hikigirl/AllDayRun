@@ -9,7 +9,6 @@
 </head>
 <body>
 	
-	
 	<div id="layout">
 		<!-- 헤더 -->
   		<%@include file="/WEB-INF/views/inc/header.jsp"%>
