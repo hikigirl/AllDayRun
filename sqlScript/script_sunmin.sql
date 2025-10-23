@@ -51,6 +51,8 @@ ALTER TABLE tblSpot ADD CONSTRAINT "PK_TBLSPOT" PRIMARY KEY (spotSeq);
 
 ALTER TABLE tblSpot ADD CONSTRAINT "FK_tblCourse_TO_tblSpot_1" FOREIGN KEY (courseSeq) REFERENCES tblCourse (courseSeq);
 
+SELECT * FROM tblSpot;
+
 --4. tblTrack
 CREATE SEQUENCE seqTrack;
 CREATE TABLE tblTrack (
@@ -69,6 +71,7 @@ ALTER TABLE tblTrack ADD CONSTRAINT "FK_tblSpot_TO_tblTrack_2" FOREIGN KEY (ends
 
 ALTER TABLE tblTrack ADD CONSTRAINT "FK_tblCourse_TO_tblTrack_1" FOREIGN KEY (courseSeq) REFERENCES tblCourse (courseSeq);
 
+SELECT * FROM tbltrack;
 
 UPDATE TBLCOURSE SET courseapproval = '승인' WHERE COURSESEQ>40;
 SELECT * FROM tblCourse;
